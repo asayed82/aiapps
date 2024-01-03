@@ -1,4 +1,4 @@
-#Brief Description - Talk to your Documents
+# Overview - Use Case: Talk to your Documents
 This repo includes an example for building chat & search apps using Vertex AI PaLM-2 model with Langchain and Vertex AI Search. The chat app will be deployed on Google Cloud Run using [Streamlit](https://streamlit.io/), while the search app will be deployed on Gogle Cloud Run using Flask. 
 
 Sample screenshots and video demos of the application are shown below:
