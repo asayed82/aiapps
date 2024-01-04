@@ -1,6 +1,16 @@
 # Use Case: Talk to your Documents
 
-This repo includes an example for building chat & search apps using Vertex AI PaLM-2 model with Langchain and Vertex AI Search. The chat app will be deployed on Google Cloud Run using [Streamlit](https://streamlit.io/), while the search app will be deployed on Gogle Cloud Run using Flask (Coming soon). 
+This repo includes a demonstration example for building chat & search apps using Vertex AI Langchain. The chat app will be deployed on Google Cloud Run using [Streamlit](https://streamlit.io/), while the search app will be deployed on Gogle Cloud Run using Flask (Coming soon). 
+
+Below are the key components used in this demo:
+- [Vertex AI Palm-2 for Chat](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-chat)
+- [Vertex AI Embeddings for Text](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-embeddings)
+- [Vertex AI Search](https://cloud.google.com/generative-ai-app-builder/docs/try-enterprise-search)
+- [Langchain](https://python.langchain.com/docs/get_started/introduction)
+- [Cloud SQL for PostgreSQL](https://cloud.google.com/sql/docs/postgres/introduction)
+- [Cloud Run](https://cloud.google.com/run/docs/overview/what-is-cloud-run)
+
+
 
 To build and run the app, you'll need to follow the below 2 steps:
 
