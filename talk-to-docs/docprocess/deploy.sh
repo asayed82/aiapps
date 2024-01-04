@@ -11,20 +11,20 @@ IMAGE_NAME="$GCP_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$AR_REPO/$JOB_NAME"
 echo "Configure gcloud to use $GCP_LOCATION for Cloud Run"
 gcloud config set run/region $GCP_LOCATION
 
-#echo "Enabling required services"
-#gcloud services enable \
-#    run.googleapis.com \
-#    cloudbuild.googleapis.com
+echo "Enabling required services"
+gcloud services enable \
+    run.googleapis.com \
+    cloudbuild.googleapis.com
 
-#echo "Creating Artifact Repository"
-#gcloud artifacts repositories create "$AR_REPO" --location="$GCP_REGION" --repository-format=Docker
+echo "Creating Artifact Repository"
+gcloud artifacts repositories create "$AR_REPO" --location="$GCP_REGION" --repository-format=Docker
 
 echo "Auth Configure Docker"
 gcloud auth configure-docker "$GCP_LOCATION-docker.pkg.dev"
 
 
-#echo "Building image into a container"
-#gcloud builds submit --tag $IMAGE_NAME
+echo "Building image into a container"
+gcloud builds submit --tag $IMAGE_NAME
 
 
 echo "Deleting job if it already exists"
