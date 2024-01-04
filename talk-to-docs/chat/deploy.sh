@@ -1,8 +1,8 @@
-export GCP_PROJECT='my-demo-project-359019' 
+export GCP_PROJECT='' 
 export GCP_REGION='us-central1'
 export AR_REPO='aidemos-repo' 
 export SERVICE_NAME='chat-wdocs-vais-app'
-export DATA_STORE_ID='noon-all-clean-ds_1704263161829'
+export DATA_STORE_ID=''
 export PG_DRIVER='psycopg2'
 
 

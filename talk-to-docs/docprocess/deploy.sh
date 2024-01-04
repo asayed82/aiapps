@@ -1,7 +1,6 @@
-export GCP_PROJECT_ID='my-demo-project-359019'
+export GCP_PROJECT_ID=''
 export GCP_LOCATION='us-central1'
-export INPUT_BUCKET='my-demo-project-359019-docprocess-test'
-export TEST='MYTEST'
+export INPUT_BUCKET=''
 
 AR_REPO='aidemos-repo' 
 JOB_NAME='docprocess-job'
@@ -35,7 +34,7 @@ gcloud run jobs create $JOB_NAME --execute-now \
     --image $IMAGE_NAME \
     --command python \
     --args process.py \
-    --set-env-vars=INPUT_BUCKET=$INPUT_BUCKET,TEST=$TEST
+    --set-env-vars=INPUT_BUCKET=$INPUT_BUCKET
 
 
 
