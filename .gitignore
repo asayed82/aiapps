@@ -5,11 +5,13 @@ talk-to-docs/search/**
 
 talk-to-docs/docprocess/data
 talk-to-docs/docprocess/data/**
+talk-to-docs/docprocess/test.py
 
 _config.py
 __config.py
 
 .DS_Store
+.gitignore
 
 
 # Byte-compiled / optimized / DLL files

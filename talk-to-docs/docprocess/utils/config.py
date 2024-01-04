@@ -1,7 +1,7 @@
 from utils import consts
 
 GCP_PROJECT_ID = ""
-GCP_LOCATION = "us-central1"
+GCP_LOCATION = ""
 INPUT_BUCKET = ""
 FILE_TYPE=consts.DocType.HTML.value
 
@@ -11,6 +11,6 @@ PG_HOST=""
 PG_PORT="5432"
 PG_DATABASE_USER=""
 PG_DATABASE_PASSWORD=""
-PG_TABLE_NAME="docs_clean"
-PG_COLLECTION_NAME="
-PG_DRIVER="psycopg2" #"pymysql | pg8000"
+PG_TABLE_NAME=""
+PG_COLLECTION_NAME=""
+PG_DRIVER="psycopg2"
