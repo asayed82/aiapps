@@ -73,7 +73,7 @@ async def index_docs_custom(
     logger.info("Docs indexed")
 
 
-async def index_docs_std(
+def index_docs_std(
     docs: List[Document], var: dict, file_type: str = consts.DocType.HTML.value
 ) -> Any:
     print("Indexing docs...")
@@ -81,13 +81,15 @@ async def index_docs_std(
     docs = _split_docs(docs=docs, file_type=file_type)
 
     CONNECTION_STRING = PGVector.connection_string_from_db_params(
-        driver="psycopg2",
+        driver=var["pg_driver"],
         host=var["pg_host"],
         port=var["pg_port"],
         database=var["pg_database_name"],
         user=var["pg_database_user"],
         password=var["pg_database_password"],
     )
+
+    print(CONNECTION_STRING)
 
     PGVector.from_documents(
         embedding=VertexAIEmbeddings(model_name=consts.VAIModelName.TXT_EMBED.value),

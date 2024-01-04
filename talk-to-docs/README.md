@@ -1,20 +1,59 @@
-# Overview - Use Case: Talk to your Documents
-This repo includes an example for building chat & search apps using Vertex AI PaLM-2 model with Langchain and Vertex AI Search. The chat app will be deployed on Google Cloud Run using [Streamlit](https://streamlit.io/), while the search app will be deployed on Gogle Cloud Run using Flask. 
+# Use Case: Talk to your Documents
 
-Sample screenshots and video demos of the application are shown below:
+This repo includes an example for building chat & search apps using Vertex AI PaLM-2 model with Langchain and Vertex AI Search. The chat app will be deployed on Google Cloud Run using [Streamlit](https://streamlit.io/), while the search app will be deployed on Gogle Cloud Run using Flask (Coming soon). 
+
+To build and run the app, you'll need to follow the below 2 steps:
+
+1.  Backend: Build and run the document processing job in `talk-to-docs/docprocess`
+2.  Frontend : Build and run the chat app in `talk-to-docs/chat`
+
+These are 2 different apps that need to be executed separately. Both apps can be executed either locally or on GCP.
 
 # Backend - Document Processing
  
  First step is to process documents and store their embedding in a Vector Database.
 
+ Additionally, ensure that you have cloned this repository and you are currently in the `talk-to-docs/docprocess` folder. This should be your active working directory for the rest of the commands for this Backend section (Document Processing).
+
+## Run the Job locally
+
+To run the job your local machine, you need to follow the below steps:
+
+1. Setup the Python virtual environment and install the dependencies:
+
+    In Cloud Shell, execute the following commands:
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+  ```
+
+  2.  Update the `utils/config.py` file with your configuration details
+
+  3. Run the job locally by executing the following command:
+
+    ```bash
+    python process.py 
+    ```
+
+## Run the Job on GCP
+
+To run the job on GCP, you need to run the `deploy.sh` file. Edit the file first to change included parameters.
+It's mandatory to set your AR_REPO, JOB_NAME parameters. The other parameters are optional as they will be set from the `utils/config.py` file.
+
+  1.  Update the `utils/config.py` file with your configuration details
+
+  2. Build and run the job on GCP by executing the following command:
+
+    ```bash
+    sh deploy.sh
+    ```
 
 # Frontend - Chat App
+## Run the Application locally
 
-## Run the Application locally (on Cloud Shell)
-
-
-> NOTE: **Before you move forward, ensure that you have followed the instructions in [SETUP.md](../SETUP.md).**
-Additionally, ensure that you have cloned this repository and you are currently in the `gemini-streamlit-cloudrun` folder. This should be your active working directory for the rest of the commands.
+Before you start, ensure that you have cloned this repository and you are currently in the `talk-to-docs/chat` folder. This should be now your active working directory for the rest of the commands for this Frontend section (Chat App).
 
 To run the Streamlit Application locally (on cloud shell), we need to perform the following steps:
 
@@ -28,21 +67,8 @@ To run the Streamlit Application locally (on cloud shell), we need to perform th
     pip install -r requirements.txt
     ```
 
-2. Your application requires access to two environment variables:
+2. Update the `utils/config.py` file with your configuration details
 
-   - `GCP_PROJECT` : This the Google Cloud project ID.
-   - `GCP_REGION` : This is the region in which you are deploying your Cloud Run app. For e.g. us-central1.
-  
-    These variables are needed since the Vertex AI initialization needs the Google Cloud project ID and the region. The specific code line from the `app.py`
-    function is shown here:
-    `vertexai.init(project=PROJECT_ID, location=LOCATION)`
-
-    In Cloud Shell, execute the following commands:
-
-    ```bash
-    export GCP_PROJECT='<Your GCP Project Id>'  # Change this
-    export GCP_REGION='us-central1'             # If you change this, make sure the region is supported.
-    ```
 
 3. To run the application locally, execute the following command:
 
@@ -60,62 +86,20 @@ The application will startup and you will be provided a URL to the application. 
 
 ## Build and Deploy the Application to Cloud Run
 
-> NOTE: **Before you move forward, ensure that you have followed the instructions in [SETUP.md](../SETUP.md).**
-Additionally, ensure that you have cloned this repository and you are currently in the `gemini-streamlit-cloudrun` folder. This should be your active working directory for the rest of the commands.
 
-To deploy the Streamlit Application in [Cloud Run](https://cloud.google.com/run/docs/quickstarts/deploy-container), we need to perform the following steps:
+To deploy the Streamlit Application in [Cloud Run](https://cloud.google.com/run/docs/quickstarts/deploy-container), you need to following the below steps:
 
-1. Your Cloud Run app requires access to two environment variables:
 
-   - `GCP_PROJECT` : This the Google Cloud project ID.
-   - `GCP_REGION` : This is the region in which you are deploying your Cloud Run app. For e.g. us-central1.
-  
-    These variables are needed since the Vertex AI initialization needs the Google Cloud project ID and the region. The specific code line from the `app.py`
-    function is shown here:
-    `vertexai.init(project=PROJECT_ID, location=LOCATION)`
+  1.  Update the `utils/config.py` file with your configuration details
 
-    In Cloud Shell, execute the following commands:
+  2. Edit `deploy.sh` file first to change included parameters.It's mandatory to set your AR_REPO, JOB_NAME parameters. The other parameters are optional as they can be set by default from the `utils/config.py` file.
+
+  3. Build and Run the job on GCP Cloud Run by executing the following command:
 
     ```bash
-    export GCP_PROJECT='<Your GCP Project Id>'  # Change this
-    export GCP_REGION='us-central1'             # If you change this, make sure the region is supported.
+    sh deploy.sh
     ```
 
-2. Now you can build the Docker image for the application and push it to Artifact Registry. To do this, you will need one environment variable set that will point to the Artifact Registry name. Included in the script below is a command that will create this Artifact Registry repository for you.
-
-   In Cloud Shell, execute the following commands:
-
-   ```bash
-   export AR_REPO='<REPLACE_WITH_YOUR_AR_REPO_NAME>'  # Change this
-   export SERVICE_NAME='gemini-streamlit-app' # This is the name of our Application and Cloud Run service. Change it if you'd like. 
-
-   #make sure you are in the active directory for 'talk-to-docs/chat'
-   gcloud artifacts repositories create "$AR_REPO" --location="$GCP_REGION" --repository-format=Docker
-   gcloud auth configure-docker "$GCP_REGION-docker.pkg.dev"
-   gcloud builds submit --tag "$GCP_REGION-docker.pkg.dev/$GCP_PROJECT/$AR_REPO/$SERVICE_NAME"
-   ```
-
-3. The final step is to deploy the service in Cloud Run with the image that we had built and had pushed to the Artifact Registry in the previous step:
-
-    In Cloud Shell, execute the following command:
-
-    ```bash
-    gcloud run deploy "$SERVICE_NAME" \
-      --port=8080 \
-      --image="$GCP_REGION-docker.pkg.dev/$GCP_PROJECT/$AR_REPO/$SERVICE_NAME" \
-      --allow-unauthenticated \
-      --region=$GCP_REGION \
-      --platform=managed  \
-      --project=$GCP_PROJECT \
-      --set-env-vars=GCP_PROJECT=$GCP_PROJECT,GCP_REGION=$GCP_REGION
-    ```
-
-On successful deployment, you will be provided a URL to the Cloud Run service. You can visit that in the browser to view the Cloud Run application that you just deployed. Choose the functionality that you would like to check out and the application will prompt the Vertex AI Gemini API and display the responses.
+On successful deployment, you will be provided a URL to the Cloud Run service. You can visit that in the browser to view the Cloud Run application that you just deployed. 
 
 Congratulations!
-
-# Frontend - Search App
-
-## Run the Application locally (on Cloud Shell)
-
-## Build and Deploy the Application to Cloud Run

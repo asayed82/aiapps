@@ -15,7 +15,7 @@ def create_app():
     var={
         "gcp_project_id":config.GCP_PROJECT_ID,
         "gcp_location":config.GCP_LOCATION,
-        "gcs_bucket_name": config.GCS_BUCKET_NAME,
+        "gcs_bucket_name": config.INPUT_BUCKET,
         "pg_database_name":config.PG_DATABASE_NAME,
         "pg_instance_name":config.PG_INSTANCE_NAME,
         "pg_host":config.PG_HOST,
@@ -48,7 +48,7 @@ def create_app():
 
         req = request.get_json()
             
-        bucket_name = req["bucket_name"] if "bucket_name" in req else config.GCS_BUCKET_NAME
+        bucket_name = req["bucket_name"] if "bucket_name" in req else config.INPUT_BUCKET
         file_type = req["file_type"] if "file_type" in req else consts.DocType.HTML.value
 
         print(f" Target blobs of this format: {bucket_name}/*.{file_type}")
