@@ -1,5 +1,6 @@
 from utils import consts
 
+DATA_LOCAL_PATH=""
 GCP_PROJECT_ID = ""
 GCP_LOCATION = ""
 INPUT_BUCKET = ""
