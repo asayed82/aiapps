@@ -51,8 +51,8 @@ def clean_html_content(html_content):
 
 def scrap_docs():
 
-    data_path = os.path.join(os.getcwd(), "data", "noon-all-ds")
-    clean_data_path = os.path.join(os.getcwd(), "data", "noon-all-ds-clean")
+    data_path = os.path.join(os.getcwd(), "data", "source")
+    clean_data_path = os.path.join(os.getcwd(), "data", "destination")
 
     html_files = get_files_in_dir(data_path)
 
