@@ -1,10 +1,11 @@
 from enum import Enum
 
-class DocType(Enum):
+class FileType(Enum):
     PDF = "PDF"
     HTML = "HTML"
     CSV = "CSV"
     JSON = "JSON"
+    MP4 = "MP4"
 
 
 class DocSplitType(Enum):
@@ -31,10 +32,6 @@ class VectorDB(Enum):
     MATCHING_ENGINE = "MATCHING_ENGINE"
 
 
-class SearchType(Enum):
-    SIMILARITY = "similarity"
-    SIMILARITY_THRESHOLD = "similarity_score_threshold"
-    MMR = "mmr"
 
 class ChainMethod(Enum):
     STUFF = "stuff"

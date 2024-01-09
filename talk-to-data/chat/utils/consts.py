@@ -1,17 +1,10 @@
 from enum import Enum
 
-class DocType(Enum):
+class FileType(Enum):
     PDF = "PDF"
     HTML = "HTML"
     CSV = "CSV"
     JSON = "JSON"
-
-
-class DocSplitType(Enum):
-    CHARS = "CHARS"
-    HEADER = "HEADER"
-    RECURSIVE = "RECURSIVE"
-    HTMLHEADER="HTMLHEADER"
 
 
 class VAIModelName(Enum):

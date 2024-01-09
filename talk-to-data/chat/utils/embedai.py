@@ -1,15 +1,17 @@
 import logging
 from typing import List
 import time
-from langchain.embeddings import VertexAIEmbeddings
+from langchain_community.embeddings import VertexAIEmbeddings
 from langchain.pydantic_v1 import BaseModel
 from vertexai.preview.language_models import TextEmbeddingInput
 from vertexai.language_models import TextEmbeddingModel
+from vertexai.preview.vision_models import MultiModalEmbeddingModel
 from utils import consts
 
 
-logger =logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+lc_vai_embeddings = VertexAIEmbeddings(model_name=consts.VAIModelName.TXT_EMBED.value)
+txt_embed_model = TextEmbeddingModel.from_pretrained(consts.VAIModelName.TXT_EMBED.value)
+multimodal_embed_model = MultiModalEmbeddingModel.from_pretrained(consts.VAIModelName.MM_EMBED.value)
 
 
 def get_txt_embedding(

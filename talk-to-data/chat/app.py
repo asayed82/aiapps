@@ -1,57 +1,33 @@
 from dataclasses import dataclass
-import os
 import streamlit as st
 import vertexai
 from langchain.chains import LLMChain
 
-# from langchain.llms import vertexai
-from langchain.chat_models import ChatVertexAI
+from langchain_community.chat_models import ChatVertexAI
 from langchain.memory import (
     ConversationBufferMemory,
-    ConversationSummaryMemory,
-    ChatMessageHistory,
     StreamlitChatMessageHistory,
 )
 from langchain.prompts import PromptTemplate
-from langchain.retrievers import GoogleVertexAISearchRetriever
+from langchain_community.retrievers import GoogleVertexAISearchRetriever
 from langchain.chains import (
     ConversationalRetrievalChain,
-    RetrievalQA,
-    StuffDocumentsChain,
 )
 from langchain.vectorstores.pgvector import PGVector
-from langchain.embeddings import VertexAIEmbeddings
 
 from utils import config, consts, database, embedai
 
+settings = config.Settings()
+
+db = database.Client(settings=settings)
+
+vertexai.init(project=settings.project_id, location=settings.location)
+
+history = StreamlitChatMessageHistory(key="st_history_key")
 
 USER = "user"
 ASSISTANT = "ai"
 MESSAGES = "messages"
-
-
-GCP_PROJECT_ID = os.environ.get("GCP_PROJECT_ID") or config.GCP_PROJECT_ID
-GCP_LOCATION = os.environ.get("GCP_LOCATION") or config.GCP_LOCATION
-DATA_STORE_ID = os.environ.get("DATA_STORE_ID") or config.VAIS_DATASTORE_ID
-VAIS_DATASTORE_REGION=os.environ.get("VAIS_DATASTORE_REGION") or config.VAIS_DATASTORE_REGION
-PG_INSTANCE_NAME = os.environ.get("PG_INSTANCE_NAME") or config.PG_INSTANCE_NAME
-PG_DATABASE_NAME = os.environ.get("PG_DATABASE_NAME") or config.PG_DATABASE_NAME
-PG_DATABASE_USER = os.environ.get("PG_DATABASE_USER") or config.PG_DATABASE_USER
-PG_DATABASE_PASSWORD = (
-    os.environ.get("PG_DATABASE_PASSWORD") or config.PG_DATABASE_PASSWORD
-)
-PG_TABLE_NAME = os.environ.get("PG_TABLE_NAME") or config.PG_TABLE_NAME
-PG_HOST = os.environ.get("PG_HOST") or config.PG_HOST
-PG_PORT = os.environ.get("PG_PORT") or config.PG_PORT
-PG_DRIVER = os.environ.get("PG_DRIVER") or config.PG_DRIVER
-PG_COLLECTION= os.environ.get("PG_COLLECTION") or config.PG_COLLECTION
-
-# unix_socket_path = os.environ.get("INSTANCE_UNIX_SOCKET") or f'/cloudsql/{GCP_PROJECT_ID}:{GCP_LOCATION}:{PG_INSTANCE_NAME}'
-
-vertexai.init(project=GCP_PROJECT_ID, location=GCP_LOCATION)
-
-history = StreamlitChatMessageHistory(key="st_history_key")
-
 
 @dataclass
 class Message:
@@ -72,52 +48,24 @@ def get_llm() -> ChatVertexAI:
 
 
 @st.cache_resource
-def get_custom_db() -> database.Client:
-    return database.Client(
-        gcp_project_id=GCP_PROJECT_ID,
-        gcp_location=GCP_LOCATION,
-        pg_instance_name=PG_INSTANCE_NAME,
-        pg_database_user=PG_DATABASE_USER,
-        pg_database_password=PG_DATABASE_PASSWORD,
-        pg_database_name=PG_DATABASE_NAME,
-    )
-
-
-# @st.cache_resource
-def get_std_db() -> PGVector:
-    CONNECTION_STRING = PGVector.connection_string_from_db_params(
-        driver=PG_DRIVER,
-        host=PG_HOST,
-        port=PG_PORT,
-        database=PG_DATABASE_NAME,
-        user=PG_DATABASE_USER,
-        password=PG_DATABASE_PASSWORD,
-    )
+def get_pgv_db() -> PGVector:
     return PGVector(
-        collection_name=PG_COLLECTION,
-        connection_string=CONNECTION_STRING,
-        embedding_function=VertexAIEmbeddings(
-            model_name=consts.VAIModelName.TXT_EMBED.value
-        ),
+        collection_name=settings.doc_collection,
+        connection_string=db.get_lc_pgv_connection_string(),
+        embedding_function=embedai.lc_vai_embeddings
     )
 
 
-async def match_similar_docs_from_db(text_query: str):
-    query_embed = embedai.get_txt_embedding(
-        text=text_query, task_type=consts.EmbeddingTaskType.RETRIEVAL_QUERY.value
-    )[0]
-
-    matches = await get_custom_db().list_similar_docs(
-        query_embed=query_embed, sim_thres=float(0.5), num_matches=int(5)
-    )
-
-    results = []
-
-    for ma in matches:
-        results.append({"page_content": ma["page_content"], "doc_link": ma["doc_link"]})
-
-    return results
-
+@st.cache_resource
+def get_vais_retriever():
+    return  GoogleVertexAISearchRetriever(
+            project_id=settings.project_id,
+            location_id=settings.location,
+            data_store_id=settings.data_store_id,
+            max_documents=5,
+            engine_data_type=0,
+            
+        )
 
 def get_llm_chain_w_customsearch():
     condense_question_template = """
@@ -153,20 +101,12 @@ def get_llm_chain_w_customsearch():
     )
 
     retriever = None
-    if DATA_STORE_ID:
-
-        retriever = GoogleVertexAISearchRetriever(
-            project_id=GCP_PROJECT_ID,
-            location_id=VAIS_DATASTORE_REGION,
-            data_store_id=DATA_STORE_ID,
-            max_documents=5,
-            engine_data_type=0,
-            
-        )
+    if settings.data_store_id:
+        retriever = get_vais_retriever()
     else:
-        retriever = get_std_db().as_retriever(
-            search_type=consts.SearchType.SIMILARITY.value,
-            search_kwargs={"score_threshold": 0.1, "k": 3},
+        retriever = get_pgv_db().as_retriever(
+            search_type=consts.SearchType.MMR.value,
+            search_kwargs={"score_threshold": 0.1, "k": 5},
         )
         
     conversation = ConversationalRetrievalChain.from_llm(

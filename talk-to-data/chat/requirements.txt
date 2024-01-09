@@ -1,0 +1,11 @@
+langchain
+langchain-community
+streamlit
+google-cloud-aiplatform==1.39.0
+google-cloud-logging
+google-cloud-discoveryengine
+cloud-sql-python-connector
+psycopg2-binary
+pgvector
+asyncpg
+pydantic-settings
