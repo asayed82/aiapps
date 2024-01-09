@@ -9,8 +9,8 @@ class Settings(BaseSettings):
     file_type:str=consts.FileType.HTML.value
 
     #JOB Settings
-    CLOUD_RUN_TASK_INDEX:int=0
-    CLOUD_RUN_TASK_COUNT:int=1
+    cloud_run_task_index:int=0
+    cloud_run_task_count:int=1
 
     #VDB Connection Settings
     db_instance:str="genai-pg"
