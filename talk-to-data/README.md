@@ -6,7 +6,7 @@ You'll have the option to build one of the below apps:
 
 - `Chatbot app` on your documents using [Streamlit](https://streamlit.io/). Components include Vertex AI (Embeddings, Search, PaLM), Google Cloud SQL and Langchain.
 
-- `Video search` app using [Flask](https://flask.palletsprojects.com/en/3.0.x/). Components include Vertex AI (Embeddings, Gemini, Video Intelligence), Google Cloud SQL and Langchain.
+- `Video search app` app using [Flask](https://flask.palletsprojects.com/en/3.0.x/). Components include Vertex AI (Embeddings, Gemini, Video Intelligence), Google Cloud SQL and Langchain.
 
 To build and run an app, you'll need to follow the below 3 steps:
 

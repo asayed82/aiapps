@@ -1,2 +1,2 @@
 # gen-ai-apps
- This is my readme
+This repo includes multiple AI Apps developed on Google Cloud for different use cases.

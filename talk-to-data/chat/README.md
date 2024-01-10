@@ -1,4 +1,4 @@
-# Frontend - Chat App
+# Frontend - Chatbot App
 
 Before building the chat app, a pre-requesite is to process your documents as described in `talk-to-data/process`.
 
