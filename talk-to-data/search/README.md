@@ -1,4 +1,4 @@
-# Frontend - Search
+# Frontend - Video Search
 
 Before building the video search app, a pre-requesite is to process your videos as described in `talk-to-data/process`.
 
@@ -51,4 +51,4 @@ To deploy the app in [Cloud Run](https://cloud.google.com/run/docs/quickstarts/d
 
 On successful deployment, you will be provided a URL to the Cloud Run service. You can visit that in the browser to view the Cloud Run application that you just deployed. 
 
-Congratulations! You've completed the chat app building.
+Congratulations! You've completed the video search app building.
