@@ -12,7 +12,7 @@ To build and run an app, you'll need to follow the below 3 steps:
 
 1.  `Backend`: Create a vector database to store documents content and embeddings
 
-2.  `Backend``: Build and run the document processing or video processing job in `talk-to-data/process`
+2.  `Backend`: Build and run the document processing or video processing job in `talk-to-data/process`
 
 3.  `Frontend` : Build and run the UI as described in `talk-to-data/chat` or `talk-to-data/search`
 
