@@ -87,7 +87,7 @@ class Client:
                 f"""CREATE TABLE IF NOT EXISTS {self.db_video_table}(
                                             video_id SERIAL PRIMARY KEY,
                                             video_name VARCHAR(100),
-                                            video_link VARCHAR(1000),
+                                            video_src VARCHAR(1000),
                                             video_title VARCHAR(1000),
                                             video_labels VARCHAR(1000),
                                             video_desc VARCHAR(1000),
@@ -139,8 +139,8 @@ class Client:
             # Create connection to Cloud SQL database.
             conn: asyncpg.Connection = await self.get_connector(connector)
 
-            video_id = await conn.fetchval(f"INSERT INTO {self.db_video_table} (video_link, video_name, video_title, video_labels, video_desc, video_duration) VALUES ($1, $2, $3, $4, $5, $6) RETURNING video_id" ,
-                        video_row["video_link"], video_row["video_name"], video_row["video_title"], video_row["video_labels"], video_row["video_desc"], video_row["video_duration"]
+            video_id = await conn.fetchval(f"INSERT INTO {self.db_video_table} (video_src, video_name, video_title, video_labels, video_desc, video_duration) VALUES ($1, $2, $3, $4, $5, $6) RETURNING video_id" ,
+                        video_row["video_src"], video_row["video_name"], video_row["video_title"], video_row["video_labels"], video_row["video_desc"], video_row["video_duration"]
                     )
             print(f"Insert Video Done with ID ={video_id}")
 

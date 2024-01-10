@@ -22,6 +22,7 @@ class Client:
     async def process_video_from_gcs(self, bucket_name:str, video_name:str):
 
         video_uri = f"gs://{bucket_name}/{video_name}"
+        video_url = f"https://storage.googleapis.com/{bucket_name}/{video_name}"
 
         video_desc = visionai.generate_video_description(f"gs://{bucket_name}/{video_name}")
 
@@ -30,7 +31,7 @@ class Client:
     
         
         video_row = {
-            "video_link":video_uri, 
+            "video_src":video_url, 
             "video_name":video_name, 
             "video_title": video_desc["title"],
             "video_labels": video_desc["labels"], 

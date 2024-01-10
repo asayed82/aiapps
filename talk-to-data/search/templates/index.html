@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<link href="https://vjs.zencdn.net/7.19.2/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+
+<form method="post" action="{{ url_for('videos_query') }}">
+  <div class="input-group d-flex">
+    <span class="input-group-text" id="basic-addon1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+        viewBox="0 0 16 16">
+        <path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+      </svg>
+    </span>
+    <input type="text" class="form-control form-control-lg" name="txt_query" placeholder="Write your query here"
+      aria-label="" value="{{txt_query}}">
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-primary btn-lg">Search</button>
+    </div>
+  </div>
+</form>
+
+<div class="row text-left" style="margin-top: 20px;">
+  <hr>
+  <div class="col-md-12">
+    {% if not results %}
+    <hr>
+    <p> No search results yet </p>
+    {% else %}
+    {% for video_id, video in results.items() %}
+
+    <div class="row">
+
+      <div class="col-8"><h4>{{ video['video_details'][0]['video_title'] }}</h4></div>
+      <div class="col-4 d-flex justify-content-end">
+        <a href="#" class="see-video-info  mt-1 text-end small" 
+          data-videoid="v-{{video_id}}" 
+          data-video-desc="{{ video['video_details'][0]['video_desc'] }}"
+          data-video-labels="{{ video['video_details'][0]['video_labels'] }}"
+          data-video-duration="{{ video['video_details'][0]['video_duration'] }}">Video Info
+        </a> &nbsp;&nbsp;
+        <a href="{{ video['video_details'][0]['video_src'] }}" target="_blank" class="mt-1 text-end small" > Video Source </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+          <video id="v-{{video_id}}" class="video-js" style="width:300px;height:200px" controls data-setup='{}' preload="auto">
+            <source src="{{ video['video_details'][0]['video_src'] }}" type="video/mp4" controls>
+            </source>
+            <p class="vjs-no-js">
+              To view this video please enable JavaScript, and consider upgrading to a
+              web browser that
+              <a href="https://videojs.com/html5-video-support/" target="_blank">
+                supports HTML5 video
+              </a>
+            </p>
+          </video>
+      </div>
+
+      <div class="col-8 pt-4">
+        <div style="position: relative;">
+          {% for seg in video.segments %}
+            <div class="badge bg-primary seg_start
+                      w-{{ '{:.0f}'.format(seg.metadata['duration']*100/video['video_details'][0]['video_duration']) }}"  
+              style="height: 10px; opacity: {{'{:.2f}'.format(seg.metadata['score']) }};  position:absolute; left:{{ '{:.0f}'.format(seg.metadata['start_sec']*100/video['video_details'][0]['video_duration']) }}%  " 
+                data-videoid="v-{{video_id}}" data-start-secs="{{seg.metadata['start_sec']}}" data-end-secs="{{seg.metadata['end_sec']}}"
+                data-description="{{seg.metadata['description']}}" data-transcript="{{seg.metadata['transcript']}}"
+                data-labels="{{seg.metadata['labels']}}" data-score="{{seg.metadata['score']}}">.</div>
+          {%endfor%}
+        </div>
+        <div id="v-{{video_id}}-info" class="mt-4">
+          <p><i>Description:</i> {{ video['video_details'][0]['video_desc'] }} </p>
+          <p><i>Labels:</i> {{ video['video_details'][0]['video_labels'] }}  </p>
+          <p><i>Duration:</i> {{ video['video_details'][0]['video_duration'] }}s</p>
+        </div>
+      </div>
+    </div>
+    <hr class="my-3">
+    {%endfor%}
+    {% endif %}
+  </div>
+</div>
+
+<script>
+
+  document.querySelectorAll('div.seg_start').forEach(seg =>{
+
+    seg.addEventListener('click', () => {
+
+      video_id = seg.dataset.videoid;
+      start_secs = parseInt(seg.dataset.startSecs);
+      end_secs = parseInt(seg.dataset.endSecs);
+      description = seg.dataset.description;
+      transcript = seg.dataset.transcript;
+      labels = seg.dataset.labels;
+      similarity = parseInt(parseFloat(seg.dataset.score)*100)+"%";
+
+      startVideoSeg(video_id, start_secs);
+
+      seg_info ="";
+
+      if (description){
+        seg_info += "<p><i>Description:</i> " + description + "</p>";
+      }
+
+      if (transcript){
+        seg_info += "<p><i>Transcript:</i> " + transcript + "</p>";
+      }
+
+      if (labels){
+        seg_info += "<p><i>Labels:</i> " + labels + "</p>";
+      }
+
+      if (similarity){
+        seg_info += "<p><i>Matching similarity:</i> <b>" + similarity + "</b> | <i>Time interval:</i> " + start_secs + "s - " + end_secs + "s</p>";
+      }
+
+      document.getElementById(video_id + "-info").innerHTML=seg_info;
+
+    });
+  });
+
+    document.querySelectorAll('a.see-video-info').forEach(video =>{
+
+      video.addEventListener('click', () => {
+
+          video_id = video.dataset.videoid;
+          duration = parseInt(video.dataset.videoDuration);
+          description = video.dataset.videoDesc;
+          labels = video.dataset.videoLabels;
+   
+          video_info ="";
+
+          if (description){
+            video_info += "<p><i>Description:</i> " + description + "</p>";
+          }
+
+          if (labels){
+            video_info += "<p><i>Labels:</i> " + labels + "</p>";
+          }
+
+          if (duration){
+            video_info += "<p><i>Duration:</i>" + duration + "s</p>";
+          }
+
+          document.getElementById(video_id + "-info").innerHTML=video_info;
+
+        });
+    });
+
+
+  function startVideoSeg(video_id, start_time) {
+
+    var player = videojs(video_id, {});
+
+    player.currentTime(start_time);
+  }
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+langchain
+langchain-community
+google-cloud-aiplatform==1.39.0
+google-cloud-discoveryengine
+flask[async]
+gunicorn
+Werkzeug
+pydantic-settings
+gcsfs
+cloud-sql-python-connector
+asyncpg
+pgvector
+psycopg2-binary
+unstructured
+moviepy
