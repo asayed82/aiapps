@@ -11,13 +11,6 @@ This repo includes a demonstration example for building a `Video Search app` wit
 
 To build and run an app, you'll need to follow the below 4 steps:
 
-1.  `Backend`: Create a vector database to store documents content and embeddings
-
-2.  `Backend`: Build and run the video processing job in `talk-to-videos/process`
-
-3.  `Frontend` : Build and run the UI as described in `talk-to-videos/search`
-
-
 All jobs and apps can be deployed locally or on Google Cloud Run. 
 
 
