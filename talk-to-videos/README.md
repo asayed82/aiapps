@@ -1,20 +1,31 @@
 # Talk to your Videos
 
-This repo includes a demonstration example for building a `Video Search app` using Google Cloud Vertex AI & Langchain. Components include Vertex AI (Embeddings, Gemini, Video Intelligence), Google Cloud SQL, Langchain and [Flask](https://flask.palletsprojects.com/en/3.0.x/).
+This repo includes a demonstration example for building a `Video Search app` with Generative AI. Components that will be used for this demo include:
 
-To build and run an app, you'll need to follow the below 3 steps:
+ - [Gemini Pro Vision](https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/overview)
+ - [Vertex AI Embeddings](https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings)
+ - [Video Intelligence API](https://cloud.google.com/video-intelligence/docs) 
+ - [Google Cloud SQL](https://cloud.google.com/sql/docs/postgres) for Postgres as a vector database with [pgvector](https://github.com/pgvector/pgvector)
+ - [Langchain](https://python.langchain.com/docs/get_started/introduction) as an orchestrator using [PGVector](https://python.langchain.com/docs/integrations/vectorstores/pgvector)
+ - [Flask](https://flask.palletsprojects.com/en/3.0.x/) for the front-end web application.
+
+To build and run an app, you'll need to follow the below 4 steps:
 
 1.  `Backend`: Create a vector database to store documents content and embeddings
 
-2.  `Backend`: Build and run the document processing or video processing job in `talk-to-videos/process`
+2.  `Backend`: Build and run the video processing job in `talk-to-videos/process`
 
 3.  `Frontend` : Build and run the UI as described in `talk-to-videos/search`
 
 
 All jobs and apps can be deployed locally or on Google Cloud Run. 
 
-We're assuming that you have already an access to a GCP Project and environment.
 
+## Pre-requesite - Environment Setup
+
+- GCP environment setup. If not, please follow the [instructions here](https://github.com/asayed82/aiapps/blob/main/SETUP.md)
+
+- Google Cloud SDK installed on your local machine. If not, check [documentation here](https://cloud.google.com/sdk/docs/install)
 
 ## Step 1 - Backend - Vector Database
 
@@ -25,12 +36,27 @@ gcloud sql instances create {instance_name} --database-version=POSTGRES_15 \
     --region={region} --cpu=4 --memory=4GB --root-password={database_password}
 ```
 
-## Step 2 - Backend - Data Processing
+## Step 2 - Create GCS Bucket
+
+Create 2 buckets: {videos_bucket} for your source video files and {clips_bucket} for the clips after video files splitting. The bucket names must have a unique URI. Check [documentation here](https://cloud.google.com/sdk/gcloud/reference/storage/buckets/create).
+
+```bash
+gcloud storage buckets create gs://{videos_bucket}
+gcloud storage buckets create gs://{clips_bucket}
+```
+
+Copy your video files into the {video_buckets}. Check [documentation here](https://cloud.google.com/sdk/gcloud/reference/storage/cp).
+
+```bash
+gcloud storage cp *.mp4 gs://{videos_bucket}
+```
+
+## Step 3 - Backend - Data Processing
 
 Please refer to `talk-to-videos/process` section to complete this step. 
  
 
-## Step 3 - Frontend UI
+## Step 4 - Frontend UI
 
 Please refer to `talk-to-videos/search` section to complete this step. 
 
