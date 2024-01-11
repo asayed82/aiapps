@@ -14,7 +14,6 @@ class Client:
         self.db_port = settings.db_port
         self.db_user = settings.db_user
         self.db_password = settings.db_password
-        self.doc_collection = settings.doc_collection
         self.video_collection = settings.video_collection
         self.video_table = settings.video_table
 

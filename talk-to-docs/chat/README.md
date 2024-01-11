@@ -1,10 +1,10 @@
 # Frontend - Chatbot App
 
-Before building the chat app, a pre-requesite is to process your documents as described in `talk-to-data/process`.
+Before building the chat app, a pre-requesite is to process your documents as described in `talk-to-docs/process`.
 
 The objective now is to build a chatbot app on top of your vector database The app will be using [Streamlit](https://streamlit.io/). 
 
-Before you start, ensure that you have cloned this repository and you are currently in the `talk-to-data/chat` folder. This should be now your active working directory for the rest of the commands in this repo.
+Before you start, ensure that you have cloned this repository and you are currently in the `talk-to-docs/chat` folder. This should be now your active working directory for the rest of the commands in this repo.
 
 ## Setup your config
 

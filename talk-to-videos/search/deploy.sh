@@ -1,7 +1,7 @@
 export PROJECT_ID='' 
 export LOCATION='us-central1'
 export CLIPS_BUCKET=''
-export VIDEO_COLLECTION='videos_col'
+export VIDEO_COLLECTION=''
 
 AR_REPO='aidemos-repo' 
 SERVICE_NAME='video-search-app'

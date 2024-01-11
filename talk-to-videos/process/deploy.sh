@@ -1,7 +1,6 @@
 export GCP_PROJECT_ID=''
 export GCP_LOCATION='us-central1'
 export CLIPS_BUCKET=''
-export DOCS_BUCKET=''
 
 AR_REPO='aidemos-repo' 
 JOB_NAME='process-job'
@@ -24,8 +23,8 @@ gcloud services enable \
     run.googleapis.com \
     cloudbuild.googleapis.com
 
-#echo "Creating Artifact Repository"
-#gcloud artifacts repositories create "$AR_REPO" --location="$GCP_REGION" --repository-format=Docker
+echo "Creating Artifact Repository"
+gcloud artifacts repositories create "$AR_REPO" --location="$GCP_REGION" --repository-format=Docker
 
 echo "Auth Configure Docker"
 gcloud auth configure-docker "$GCP_LOCATION-docker.pkg.dev"
@@ -49,7 +48,7 @@ gcloud run jobs create $JOB_NAME --execute-now \
     --parallelism $TASK_PARALLELISM \
     --cpu $JOB_CPU \
     --memory $JOB_MEMORY \
-    --set-env-vars=CLIPS_BUCKET=$CLIPS_BUCKET,DOCS_BUCKET=$DOCS_BUCKET
+    --set-env-vars=CLIPS_BUCKET=$CLIPS_BUCKET
 
 
 

@@ -2,8 +2,6 @@ langchain
 langchain-community
 google-cloud-aiplatform==1.39.0
 google-cloud-logging
-google-cloud-discoveryengine
-google-cloud-videointelligence
 flask[async]
 pandas
 pydantic-settings
@@ -18,4 +16,3 @@ bs4
 lxml
 trafilatura
 unstructured
-ffmpeg-python

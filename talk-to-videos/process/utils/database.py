@@ -23,7 +23,6 @@ class Client:
         self.db_port = settings.db_port
         self.db_user = settings.db_user
         self.db_password = settings.db_password
-        self.db_doc_collection = settings.db_doc_collection
         self.db_video_table = settings.db_video_table
         self.db_video_segs_table = settings.db_video_segs_table
         self.db_video_collection = settings.db_video_collection

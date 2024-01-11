@@ -1,10 +1,10 @@
 # Frontend - Video Search
 
-Before building the video search app, a pre-requesite is to process your videos as described in `talk-to-data/process`.
+Before building the video search app, a pre-requesite is to process your videos as described in `talk-to-videos/process`.
 
 The objective now is to build a search app on top of your vector database The app will be using [Flask](https://flask.palletsprojects.com/en/3.0.x/). 
 
-Before you start, ensure that you have cloned this repository and you are currently in the `talk-to-data/search` folder. This should be now your active working directory for the rest of the commands in this repo.
+Before you start, ensure that you have cloned this repository and you are currently in the `talk-to-videos/search` folder. This should be now your active working directory for the rest of the commands in this repo.
 
 ## Setup your config
 
@@ -51,4 +51,4 @@ To deploy the app in [Cloud Run](https://cloud.google.com/run/docs/quickstarts/d
 
 On successful deployment, you will be provided a URL to the Cloud Run service. You can visit that in the browser to view the Cloud Run application that you just deployed. 
 
-Congratulations! You've completed the video search app building.
+Congratulations! You've completed the video search app demo.

@@ -1,6 +1,5 @@
 
 import os
-import logging
 from google.cloud import storage
 from langchain.docstore.document import Document
 from langchain_community.document_loaders import (
@@ -12,17 +11,12 @@ from langchain_community.document_loaders import (
 
 from utils import consts, config
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 class Client:
     def __init__(self, settings: config.Settings) -> None:
         self.project_id = settings.project_id
         self.location = settings.location
         self.docs_bucket = settings.docs_bucket
-        self.videos_bucket = settings.videos_bucket
-        self.clips_bucket = settings.clips_bucket
 
 
     def load_gcs_docs_to_lc(self, bucket_name:str, file_type:str) -> list[Document]:
@@ -60,8 +54,7 @@ class Client:
     def load_local_files(
         self, local_dir_path: str = None, file_type: str = consts.FileType.PDF.value
     ) -> list:
-        logger.info("loading docs...")
-
+        
         loader = None
         if not local_dir_path:
             raise ValueError("a dir path or doc path has to be specified")

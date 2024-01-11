@@ -9,7 +9,6 @@ class Client:
             
         self.project_id = settings.project_id
         self.location = settings.location
-        self.file_type = settings.file_type
         self.min_video_clip_duration_secs = settings.min_video_clip_duration_secs
         self.max_video_clip_duration_secs = settings.max_video_clip_duration_secs
         self.db = database.Client(settings=settings)
@@ -17,7 +16,6 @@ class Client:
 
     def create_video_tables(self):
          asyncio.run(self.db.create_video_table())
-         asyncio.run(self.db.create_video_segs_table())
 
     async def process_video_from_gcs(self, bucket_name:str, video_name:str):
 
