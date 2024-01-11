@@ -2,9 +2,9 @@
 
 This repo includes a demonstration example for building a `Video Search app` with Generative AI. Components that will be used for this demo include:
 
- - [Gemini Pro Vision](https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/overview)
- - [Vertex AI Embeddings](https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings)
- - [Video Intelligence API](https://cloud.google.com/video-intelligence/docs) 
+ - [Gemini Pro Vision](https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/overview) to generate video description, title, labels, etc.
+ - [Vertex AI Embeddings](https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings) to embed generated descriptions into vectors.
+ - [Video Intelligence API](https://cloud.google.com/video-intelligence/docs) to detect shots / sequences, labels, transcription, etc.
  - [Google Cloud SQL](https://cloud.google.com/sql/docs/postgres) for Postgres as a vector database with [pgvector](https://github.com/pgvector/pgvector)
  - [Langchain](https://python.langchain.com/docs/get_started/introduction) as an orchestrator using [PGVector](https://python.langchain.com/docs/integrations/vectorstores/pgvector)
  - [Flask](https://flask.palletsprojects.com/en/3.0.x/) for the front-end web application.
