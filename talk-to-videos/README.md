@@ -9,6 +9,10 @@ This repo includes a demonstration example for building a `Video Search app` wit
  - [Langchain](https://python.langchain.com/docs/get_started/introduction) as an orchestrator using [PGVector](https://python.langchain.com/docs/integrations/vectorstores/pgvector)
  - [Flask](https://flask.palletsprojects.com/en/3.0.x/) for the front-end web application.
 
+ Below is a solution architecture:
+
+ ![Video Search Architecture](assets/architecture.png "Video Search Architecture")
+
 To build and run an app, you'll need to follow the below 4 steps:
 
 All jobs and apps can be deployed locally or on Google Cloud Run. 
