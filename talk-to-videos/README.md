@@ -1,6 +1,12 @@
 # Talk to your Videos
 
-This repo includes a demonstration example for building a `Video Search app` with Generative AI. Components that will be used for this demo include:
+This repo includes a demonstration example for building a `Video Search app` with Generative AI. 
+
+ Below is a screenshot from the app:
+
+ ![Video Search UI Screenshot](assets/video-search-screenshot.png "Video Search UI Screenshot")
+
+Components that will be used for this demo include:
 
  - [Gemini Pro Vision](https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/overview) to generate video description, title, labels, etc.
  - [Vertex AI Embeddings](https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings) to embed generated descriptions into vectors.
