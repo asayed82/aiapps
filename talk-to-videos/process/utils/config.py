@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
 
     #GCP Settings
-    project_id:str = "my-demo-project-359019"
+    project_id:str = ""
     location:str = "us-central1"
 
     #JOB Settings
@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     cloud_run_task_count:int=1
 
     #VDB Connection Settings
-    db_instance:str="my_instance"
+    db_instance:str="genai-pg"
     db_name:str="video_search"
     db_host:str=""
     db_port:str="5432"
@@ -19,10 +19,10 @@ class Settings(BaseSettings):
     db_password:str="postgres"
 
     #Videos Only settings
-    videos_bucket:str = "my-videos-bucket-name"
-    clips_bucket:str = "my-clips-bucket-name"
-    db_video_table:str="videos"
-    db_video_segs_table:str="videos_segs"
-    db_video_collection:str="videos_col"
+    videos_bucket:str = "video-sample"
+    clips_bucket:str = "video-sample-clips"
+    db_video_table:str="sample_videos"
+    db_video_segs_table:str="sample_videos_segs"
+    db_video_collection:str="sample_videos_col"
     min_video_clip_duration_secs:int=30
     max_video_clip_duration_secs:int=60

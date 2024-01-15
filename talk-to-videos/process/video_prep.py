@@ -9,21 +9,26 @@ dl = data_loader.Client(settings=settings)
 
 def preprocess_all_videos():
 
-    video_names = dl.load_gcs_files(bucket_name=dl.videos_bucket)
+    video_names = dl.load_gcs_files(bucket_name=dl.videos_bucket, max_results=20, content_type="video/mp4")
+
+    tmp_folder_name = "tmp"
+    if not os.path.exists(tmp_folder_name): 
+        os.makedirs(tmp_folder_name)
 
     print(f"{len(video_names)} videos to preprocess...")
     
-    for name in video_names:
-        split_video_into_clips(dl.videos_bucket, dl.clips_bucket, name)
+    for video_name in video_names:
+        split_video_into_clips(dl.videos_bucket, dl.clips_bucket, video_name, tmp_folder_name)
 
+    os.rmdir(tmp_folder_name)
 
-def split_video_into_clips(videos_bucket: str, clips_bucket:str, video_name: str):
+def split_video_into_clips(videos_bucket: str, clips_bucket:str, video_name: str, tmp_folder_name:str):
 
     video_uri = f"gs://{videos_bucket}/{video_name}"
 
     print(f'========Processing video : "{video_uri}"')
 
-    video_tmp_path = f"tmp/{video_name}"
+    video_tmp_path = f"{tmp_folder_name}/{video_name}"
     dl.download_gcs_to_local(bucket_name=videos_bucket, blob_name=video_name, file_path=video_tmp_path)
 
     clips, _ = visionai.parse_video_shots(visionai.extract_video_shots(video_uri=video_uri))

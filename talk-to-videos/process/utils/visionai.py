@@ -11,12 +11,18 @@ multimodal_model = GenerativeModel(consts.VAIModelName.MULTIMODAL.value)
 def generate_video_description(video_uri: str = None) -> Any:
 
     
-    prompt = """ Describe this video sequence by sequence. The output should be in the following JSON format: \n
-                 {"sequences": [{"start_secs": "sequence start in seconds, like 5", "sequence end in seconds, like 10", \n
-                                "description": "description of this particular video sequence" }], \n
+    prompt = """ Describe this video in details sequence by sequence. Each sequence shouldn't be more than 5 seconds. \n
+                
+                The output should be in the following JSON format: \n
+                 {"sequences": [{ \n
+                        "start_secs": "at which second this sequence starts", \n
+                        "end_secs": "at which second this sequence ends", \n
+                        "description": "description of this particular video sequence" }], \n
                  "title": "a title of the entire video", \n
                  "summary": "a brief description of the entire video",\n
-                 "labels": "list of labels / tags separated by comma. Not more than 10 labels"}
+                 "labels": "list of labels / tags for the video separated by comma. Not more than 10 labels", \n
+                 "duration": "total video duration in seconds" \n
+                 }
             """
     
     try:

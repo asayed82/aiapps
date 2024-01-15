@@ -25,7 +25,8 @@ class Client:
         video_desc = visionai.generate_video_description(f"gs://{bucket_name}/{video_name}")
 
         if not video_desc or "sequences" not in video_desc:
-            raise ValueError(f"Couldn't generate sequences description for video {video_uri}")
+            print(f"Couldn't generate sequences description for video {video_uri}")
+            return
     
         
         video_row = {
@@ -34,7 +35,7 @@ class Client:
             "video_title": video_desc["title"],
             "video_labels": video_desc["labels"], 
             "video_desc": video_desc["summary"], 
-            "video_duration": float(video_desc["sequences"][-1]["end_secs"])
+            "video_duration": float(video_desc["duration"])
             }
         
         video_id = await self.db.insert_video(video_row = video_row)

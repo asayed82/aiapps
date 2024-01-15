@@ -51,6 +51,8 @@ def create_app():
                 doc.metadata["score"]=score
 
                 results[doc.metadata["video_id"]]["segments"].append(doc)
+                if "first_seg_start_secs" not in results[doc.metadata["video_id"]]:
+                    results[doc.metadata["video_id"]]["start_secs"].append(doc.metadata["start_sec"])
 
             videos = await db.list_videos(tuple(results.keys()))
 

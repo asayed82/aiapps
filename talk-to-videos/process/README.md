@@ -24,6 +24,16 @@ Once clips are created correctly, you'll be using the clips bucket as an input f
 
 You have the option to run the job from your local machine or on GCP.
 
+## Create Video Table in Database
+
+Create a database table that will contain video metadata. This table will not include embeddings, as embeddings will be stored at segment level during video processing in the next step.
+
+To create this table, run the below script:
+
+```bash
+        python initialize.py 
+```
+
 ## Option 1 - Run the Processing Job locally
 
 To run the job your local machine, you need to follow the below steps:

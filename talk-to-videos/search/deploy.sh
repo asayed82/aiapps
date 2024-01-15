@@ -1,10 +1,10 @@
 export PROJECT_ID='' 
 export LOCATION='us-central1'
-export CLIPS_BUCKET=''
-export VIDEO_COLLECTION=''
+export CLIPS_BUCKET='video-sample-clips'
+export VIDEO_COLLECTION='sample_videos_col'
 
 AR_REPO='aidemos-repo' 
-SERVICE_NAME='video-search-app'
+SERVICE_NAME='sample-video-search-app'
 MEMORY='4Gi'
 CPU=8
 

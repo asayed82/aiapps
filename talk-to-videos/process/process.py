@@ -18,7 +18,7 @@ def process():
     
     processor = video_process.Client(settings=settings)
 
-    video_names = processor.dl.load_gcs_files(bucket_name=processor.dl.clips_bucket)
+    video_names = processor.dl.load_gcs_files(bucket_name=processor.dl.clips_bucket, content_type="video/mp4")
 
     print(f"******* {len(video_names)} videos to be processed...")
 

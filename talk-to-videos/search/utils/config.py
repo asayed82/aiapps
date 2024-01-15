@@ -9,7 +9,7 @@ class Settings(BaseSettings):
 
 
     #VDB Connection Settings
-    db_instance:str="my_instance"
+    db_instance:str="genai-pg"
     db_name:str="doc_search"
     db_host:str=""
     db_port:str="5432"
@@ -18,7 +18,8 @@ class Settings(BaseSettings):
 
 
     #Videos Only settings
-    clips_bucket:str = "my-bucket-name"
-    video_table:str="videos"
-    video_segs_table:str="videos_segs"
-    video_collection:str="videos_col"
+    clips_bucket:str ="video-sample-clips"
+    video_table:str="sample_videos"
+    video_segs_table:str="sample_videos_segs"
+    video_collection:str="sample_videos_col"
+

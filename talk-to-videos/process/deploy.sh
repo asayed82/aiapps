@@ -1,10 +1,10 @@
 export GCP_PROJECT_ID=''
 export GCP_LOCATION='us-central1'
-export CLIPS_BUCKET=''
+export CLIPS_BUCKET='video-sample-clips'
 
 AR_REPO='aidemos-repo' 
-JOB_NAME='process-job'
-JOB_MEMORY='4G'
+JOB_NAME='video-process-job'
+JOB_MEMORY='4Gi'
 JOB_CPU=8
 JOB_MAX_RETRIES=0
 PROCESS_NUM_TASKS=10
@@ -21,7 +21,17 @@ gcloud config set run/region $GCP_LOCATION
 echo "Enabling required services"
 gcloud services enable \
     run.googleapis.com \
-    cloudbuild.googleapis.com
+    cloudbuild.googleapis.com \
+    compute.googleapis.com \
+    cloudresourcemanager.googleapis.com \
+    iam.googleapis.com \
+    container.googleapis.com \
+    cloudapis.googleapis.com \
+    cloudtrace.googleapis.com \
+    containerregistry.googleapis.com \
+    iamcredentials.googleapis.com \
+    aiplatform.googleapis.com \
+    storage.googleapis.com
 
 echo "Creating Artifact Repository"
 gcloud artifacts repositories create "$AR_REPO" --location="$GCP_REGION" --repository-format=Docker

@@ -1,6 +1,5 @@
 
 import os
-import logging
 from google.cloud import storage
 from utils import config
 
@@ -12,7 +11,7 @@ class Client:
         self.clips_bucket = settings.clips_bucket
 
     
-    def load_gcs_files(self, bucket_name:str, max_results: int = None) -> list[str]:
+    def load_gcs_files(self, bucket_name:str, content_type:str, max_results: int = None) -> list[str]:
         storage_client = storage.Client()
 
         file_names = []
@@ -20,6 +19,11 @@ class Client:
         blobs = storage_client.list_blobs(bucket_name, max_results=max_results)
 
         for blob in blobs:
+            if blob.content_type != content_type:
+                print(
+                    f"Skipping non-supported file: {blob.name} - Mimetype: {blob.content_type}"
+                )
+                continue
             file_names.append(blob.name)
 
         return file_names
@@ -27,8 +31,7 @@ class Client:
 
     def delete_gcs_blob(self, bucket_name, blob_name):
         """Deletes a blob from the bucket."""
-        # bucket_name = "your-bucket-name"
-        # blob_name = "your-object-name"
+
 
         storage_client = storage.Client()
 
@@ -36,10 +39,8 @@ class Client:
         blob = bucket.blob(blob_name)
         generation_match_precondition = None
 
-        # Optional: set a generation-match precondition to avoid potential race conditions
-        # and data corruptions. The request to delete is aborted if the object's
-        # generation number does not match your precondition.
-        blob.reload()  # Fetch blob metadata to use in generation_match_precondition.
+
+        blob.reload() 
         generation_match_precondition = blob.generation
 
         blob.delete(if_generation_match=generation_match_precondition)
