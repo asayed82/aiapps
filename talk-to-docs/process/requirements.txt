@@ -16,3 +16,6 @@ bs4
 lxml
 trafilatura
 unstructured
+pypdf
+openai
+jq

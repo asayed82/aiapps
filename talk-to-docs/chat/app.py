@@ -3,7 +3,7 @@ import streamlit as st
 import vertexai
 from langchain.chains import LLMChain
 
-from langchain_community.chat_models import ChatVertexAI
+from langchain_community.chat_models import ChatVertexAI, ChatOpenAI
 from langchain.memory import (
     ConversationBufferMemory,
     StreamlitChatMessageHistory,
@@ -36,15 +36,16 @@ class Message:
 
 
 @st.cache_resource
-def get_llm() -> ChatVertexAI:
-    return ChatVertexAI(
-        model_name="chat-bison@002",
-        max_output_tokens=2000,
-        temperature=0,
-        top_p=0.8,
-        top_k=1,
-        verbose=True,
-    )
+def get_llm() -> ChatOpenAI:
+    return ChatOpenAI(model_name="gpt-4", openai_api_key='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')
+    # return ChatVertexAI(
+    #     model_name="chat-bison@002",
+    #     max_output_tokens=2000,
+    #     temperature=0,
+    #     top_p=0.8,
+    #     top_k=1,
+    #     verbose=True,
+    # )
 
 
 @st.cache_resource
@@ -52,7 +53,7 @@ def get_pgv_db() -> PGVector:
     return PGVector(
         collection_name=settings.doc_collection,
         connection_string=db.get_lc_pgv_connection_string(),
-        embedding_function=embedai.lc_vai_embeddings
+        embedding_function=embedai.openai_embeddings
     )
 
 
@@ -82,11 +83,18 @@ def get_llm_chain_w_customsearch():
     )
 
     combine_prompt = PromptTemplate(
-        template="""Use the following pieces of context and chat history to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
-        Context: {context}
-        Chat history: {chat_history}
-        Question: {question} 
-        Helpful Answer:""",
+        template="""Use the following pieces of context and chat history to answer the question at the end.
+                    You have to act like expert ecommerce product sales person.
+                    Give properly formatted answer wherever possible.
+                    Always give answer in bullet points or tabular format to put less congnitive load on user.
+                    Give information to user in a way that he is compelled to buy a product.
+                    All ways give the full product link to noon.com wherever possible but behind a pretty text.
+                    If you don't know the answer, just say that you don't know, don't try to make up an answer.
+                    
+                    Context: {context}
+                    Chat history: {chat_history}
+                    Question: {question} 
+                    Helpful Answer:""",
         input_variables=["context", "question", "chat_history"],
     )
 

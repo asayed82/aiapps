@@ -4,6 +4,7 @@ from langchain.docstore.document import Document
 from langchain.text_splitter import (
     RecursiveCharacterTextSplitter,
     HTMLHeaderTextSplitter,
+    TextSplitter
 )
 from langchain.vectorstores.pgvector import PGVector
 from langchain_community.embeddings import VertexAIEmbeddings
@@ -30,11 +31,13 @@ class Client:
         print("-----Processing doc...")
 
         chunks = self._split_docs(docs=[doc])
+        if not chunks:
+            return
 
-        CONNECTION_STRING =  self.db.get_lc_pgv_connection_string()
+        CONNECTION_STRING = self.db.get_lc_pgv_connection_string()
 
         PGVector.from_documents(
-            embedding=embedai.lc_vai_embeddings,
+            embedding=embedai.openai_embeddings,
             documents=chunks,
             collection_name=self.db.db_doc_collection,
             connection_string=CONNECTION_STRING,
@@ -43,11 +46,8 @@ class Client:
         print(f"{len(chunks)} records inserted to vector database")
 
     def _split_docs(self, docs):
-
-
         chunk_docs = []
-
-        if self.file_type == consts.FileType.PDF.value:
+        if self.file_type in (consts.FileType.PDF.value, consts.FileType.JSON.value):
             text_splitter = RecursiveCharacterTextSplitter(
                 chunk_size=1000, chunk_overlap=100, add_start_index=True
             )
@@ -65,6 +65,8 @@ class Client:
                     chunk_docs.append(chunk)
 
         if not chunk_docs or len(chunk_docs) == 0:
+            print("NO CHUNK")
+            return []
             raise ValueError("Doc splitting resulted in an empty list of chunks")
 
         print(f"{len(chunk_docs)} chunks obtained after splitting  ")

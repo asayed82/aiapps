@@ -6,6 +6,7 @@ class FileType(Enum):
     CSV = "CSV"
     JSON = "JSON"
     MP4 = "MP4"
+    TEXT = "TEXT"
 
 
 class DocSplitType(Enum):
@@ -32,11 +33,11 @@ class VectorDB(Enum):
     MATCHING_ENGINE = "MATCHING_ENGINE"
 
 
-
 class ChainMethod(Enum):
     STUFF = "stuff"
     MAPREDUCE = "map_reduce"
     REFINE = "refine"
+
 
 class EmbeddingTaskType(Enum):
     SEMANTIC_SIMILARITY = "SEMANTIC_SIMILARITY"

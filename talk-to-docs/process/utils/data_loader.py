@@ -2,11 +2,15 @@
 import os
 from google.cloud import storage
 from langchain.docstore.document import Document
+from langchain_community.utilities.vertexai import get_client_info
 from langchain_community.document_loaders import (
     PyPDFLoader,
     DirectoryLoader,
     UnstructuredHTMLLoader,
     GCSDirectoryLoader,
+    JSONLoader,
+    TextLoader,
+    GCSFileLoader
 )
 
 from utils import consts, config
@@ -26,6 +30,10 @@ class Client:
         loader_cls = PyPDFLoader
         if file_type == consts.FileType.HTML.value:
             loader_cls = UnstructuredHTMLLoader
+        if file_type == consts.FileType.TEXT.value:
+            loader_cls = TextLoader
+        # if file_type == consts.FileType.JSON.value:
+        #     loader_cls = JSONLoader(jq_schema='.[]')
 
         loader = GCSDirectoryLoader(
             project_name=self.project_id,
@@ -36,7 +44,6 @@ class Client:
         docs = loader.load()
 
         print("# of docs loaded = %i", len(docs))
-
         return docs
     
     def load_gcs_files(self, bucket_name:str, max_results: int = None) -> list[str]:
@@ -50,6 +57,31 @@ class Client:
             file_names.append(blob.name)
 
         return file_names
+
+    def load_gcs_file_to_lc(self, bucket_name, blob_name):
+        def metadata(sample, additional_fields):
+            return {
+                "offer_code": sample['offer_code'],
+                "sku_config": sample['sku_config'],
+                **additional_fields
+            }
+
+        def JSONLoaderFunc(jq_schema):
+            def JSONLoaderInnerFunc(file_path):
+                return JSONLoader(file_path=file_path, jq_schema=jq_schema, text_content=False, json_lines=True, metadata_func=metadata)
+            return JSONLoaderInnerFunc
+
+        loader = GCSFileLoader(
+                    project_name=self.project_id,
+                    bucket=bucket_name,
+                    blob=blob_name,
+                    loader_func=JSONLoaderFunc('.')
+                )
+
+        docs = loader.load()
+        print(f"# of docs loaded = {len(docs)}")
+        print(f"docs {docs[0]}")
+        return docs
 
     def load_local_files(
         self, local_dir_path: str = None, file_type: str = consts.FileType.PDF.value
