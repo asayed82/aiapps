@@ -1,16 +1,16 @@
-export GCP_PROJECT_ID=''
-export GCP_LOCATION='us-central1'
+export GCP_PROJECT_ID='noondev-chatbot'
+export GCP_LOCATION='us-east1'
 export DOCS_BUCKET=''
 
-AR_REPO='aidemos-repo' 
+AR_REPO='aiapps-raghav'
 JOB_NAME='process-job'
-JOB_MEMORY='4G'
+JOB_MEMORY='4Gi'
 JOB_CPU=8
 JOB_MAX_RETRIES=0
 PROCESS_NUM_TASKS=10
-TASK_TIMEOUT='30m'
+TASK_TIMEOUT='300m'
 
-TASK_PARALLELISM=2
+TASK_PARALLELISM=1
 
 IMAGE_NAME="$GCP_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$AR_REPO/$JOB_NAME"
 
