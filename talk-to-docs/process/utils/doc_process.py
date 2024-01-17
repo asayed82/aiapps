@@ -9,6 +9,8 @@ from langchain.text_splitter import (
 from langchain.vectorstores.pgvector import PGVector
 from langchain_community.embeddings import VertexAIEmbeddings
 from utils import consts, config, database, data_loader, embedai
+from sqlalchemy import create_engine
+from sqlalchemy.pool import Pool
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -23,10 +25,11 @@ class Client:
             self.file_type = settings.file_type
             self.doc_processing_batch_size= settings.doc_processing_batch_size
             self.db = database.Client(settings=settings)
-            self.dl =  data_loader.Client(settings=settings)
+            self.dl = data_loader.Client(settings=settings)
+            self.engine = create_engine(self.db.get_lc_pgv_connection_string(), echo=False, pool_size=15, max_overflow=5, pool_recycle=3600)
 
 
-    def process_doc_lc(self, doc: Document) -> Any:
+    def process_doc_lc(self, doc: Document, callback) -> Any:
 
         print("-----Processing doc...")
 
@@ -41,9 +44,10 @@ class Client:
             documents=chunks,
             collection_name=self.db.db_doc_collection,
             connection_string=CONNECTION_STRING,
+            connection=self.engine
         )
 
-        print(f"{len(chunks)} records inserted to vector database")
+        print(f"seq_num {doc.metadata['seq_num']} processed")
 
     def _split_docs(self, docs):
         chunk_docs = []

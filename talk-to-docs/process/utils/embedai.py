@@ -11,8 +11,8 @@ from vertexai.preview.vision_models import MultiModalEmbeddingModel
 
 # txt_embed_model = TextEmbeddingModel.from_pretrained(consts.VAIModelName.TXT_EMBED.value)
 # multimodal_embed_model = MultiModalEmbeddingModel.from_pretrained(consts.VAIModelName.MM_EMBED.value)
-# lc_vai_embeddings = VertexAIEmbeddings(model_name=consts.VAIModelName.TXT_EMBED.value)
-openai_embeddings = OpenAIEmbeddings(openai_api_key='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')
+lc_vai_embeddings = VertexAIEmbeddings(model_name=consts.VAIModelName.TXT_EMBED.value)
+openai_embeddings = OpenAIEmbeddings(openai_api_key='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')
 
 
 def get_txt_embedding(
