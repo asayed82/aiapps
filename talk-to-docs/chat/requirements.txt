@@ -11,3 +11,4 @@ asyncpg
 pydantic-settings
 google-cloud-secret-manager
 openai
+tiktoken
