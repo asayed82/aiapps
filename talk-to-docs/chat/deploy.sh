@@ -1,5 +1,5 @@
-export GCP_PROJECT_ID='noondev-chatbot'
-export GCP_LOCATION='us-east1'
+export PROJECT_ID='noondev-chatbot'
+export LOCATION='us-east1'
 export DOCS_BUCKET='noongpt_training_data'
 export DATA_STORE_ID=''
 export DATA_STORE_REGION=''
