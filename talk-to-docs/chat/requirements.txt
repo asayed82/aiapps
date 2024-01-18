@@ -9,3 +9,4 @@ psycopg2-binary
 pgvector
 asyncpg
 pydantic-settings
+google-cloud-secret-manager
