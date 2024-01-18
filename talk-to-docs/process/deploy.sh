@@ -1,6 +1,6 @@
 export GCP_PROJECT_ID='noondev-chatbot'
 export GCP_LOCATION='us-east1'
-export DOCS_BUCKET='openai_collection'
+export DOCS_BUCKET='noongpt_training_data'
 
 AR_REPO='aiapps-raghav'
 JOB_NAME='process-job'
