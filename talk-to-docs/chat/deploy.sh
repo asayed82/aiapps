@@ -7,7 +7,7 @@ export DOC_COLLECTION='openai_collection'
 
 AR_REPO='aiapps-raghav'
 SERVICE_NAME='noongpt-openai-raghav'
-
+SERVICE_ACCOUNT='rmundhada@noondev-chatbot.iam.gserviceaccount.com'
 
 gcloud artifacts repositories create "$AR_REPO" --location="$LOCATION" --repository-format=Docker
 gcloud auth configure-docker "$LOCATION-docker.pkg.dev"
