@@ -36,4 +36,4 @@ class Settings(BaseSettings):
 
 
     #Documents Retriever settings
-    doc_collection: str = "openai_collection"
+    doc_collection: str = "vertexai_collection"

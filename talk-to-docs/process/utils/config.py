@@ -35,5 +35,5 @@ class Settings(BaseSettings):
 
     #Documents Only settings
     docs_bucket: str = "noongpt_training_data"
-    doc_collection: str = "openai_collection"
+    doc_collection: str = "vertexai_collection"
     doc_processing_batch_size: int = 5

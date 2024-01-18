@@ -36,16 +36,16 @@ class Message:
 
 
 @st.cache_resource
-def get_llm() -> ChatOpenAI:
-    return ChatOpenAI(model_name="gpt-4", openai_api_key=config.openai_api_key)
-    # return ChatVertexAI(
-    #     model_name="chat-bison@002",
-    #     max_output_tokens=2000,
-    #     temperature=0,
-    #     top_p=0.8,
-    #     top_k=1,
-    #     verbose=True,
-    # )
+def get_llm() -> ChatVertexAI:
+    #return ChatOpenAI(model_name="gpt-4", openai_api_key=config.openai_api_key)
+    return ChatVertexAI(
+        model_name="chat-bison@002",
+        max_output_tokens=2000,
+        temperature=0,
+        top_p=0.8,
+        top_k=1,
+        verbose=True,
+    )
 
 
 @st.cache_resource
@@ -53,7 +53,7 @@ def get_pgv_db() -> PGVector:
     return PGVector(
         collection_name=settings.doc_collection,
         connection_string=db.get_lc_pgv_connection_string(),
-        embedding_function=embedai.openai_embeddings
+        embedding_function=embedai.lc_vai_embeddings
     )
 
 

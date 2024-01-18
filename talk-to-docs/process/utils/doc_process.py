@@ -40,7 +40,7 @@ class Client:
         CONNECTION_STRING = self.db.get_lc_pgv_connection_string()
 
         PGVector.from_documents(
-            embedding=embedai.openai_embeddings,
+            embedding=embedai.lc_vai_embeddings,
             documents=chunks,
             collection_name=self.db.db_doc_collection,
             connection_string=CONNECTION_STRING,
