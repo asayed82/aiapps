@@ -1,12 +1,12 @@
-export PROJECT_ID='' 
-export LOCATION=''
-export DOCS_BUCKET=''
+export GCP_PROJECT_ID='noondev-chatbot'
+export GCP_LOCATION='us-east1'
+export DOCS_BUCKET='noongpt_training_data'
 export DATA_STORE_ID=''
 export DATA_STORE_REGION=''
-export DOC_COLLECTION=''
+export DOC_COLLECTION='openai_collection'
 
-AR_REPO='aidemos-repo' 
-SERVICE_NAME='chat-wdocs-custom-app'
+AR_REPO='aiapps-raghav'
+SERVICE_NAME='noongpt-openai-raghav'
 
 
 gcloud artifacts repositories create "$AR_REPO" --location="$LOCATION" --repository-format=Docker
@@ -16,6 +16,7 @@ gcloud builds submit --tag "$LOCATION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVI
 gcloud run deploy "$SERVICE_NAME" \
   --port=8080 \
   --image="$LOCATION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME" \
+  --service-account=$SERVICE_ACCOUNT \
   --allow-unauthenticated \
   --region=$LOCATION \
   --platform=managed  \
