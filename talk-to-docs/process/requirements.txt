@@ -19,3 +19,5 @@ unstructured
 pypdf
 openai
 jq
+tiktoken
+google-cloud-secret-manager

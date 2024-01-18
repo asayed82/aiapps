@@ -37,7 +37,7 @@ class Message:
 
 @st.cache_resource
 def get_llm() -> ChatOpenAI:
-    return ChatOpenAI(model_name="gpt-4", openai_api_key='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')
+    return ChatOpenAI(model_name="gpt-4", openai_api_key=config.openai_api_key)
     # return ChatVertexAI(
     #     model_name="chat-bison@002",
     #     max_output_tokens=2000,

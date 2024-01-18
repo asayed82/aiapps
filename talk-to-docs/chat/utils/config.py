@@ -1,6 +1,18 @@
 from utils import consts
 from pydantic_settings import BaseSettings
 
+
+def get_openai_api_key():
+    from google.cloud import secretmanager
+    client = secretmanager.SecretManagerServiceClient()
+    name = "projects/noondev-chatbot/secrets/OPENAI_API_KEY/versions/latest"
+    response = client.access_secret_version(request={"name": name})
+    return response.payload.data.decode('UTF-8')
+
+
+#llms keys
+openai_api_key = get_openai_api_key()
+
 class Settings(BaseSettings):
 
     #GCP Settings

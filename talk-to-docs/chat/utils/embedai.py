@@ -6,13 +6,13 @@ from langchain.pydantic_v1 import BaseModel
 from vertexai.preview.language_models import TextEmbeddingInput
 from vertexai.language_models import TextEmbeddingModel
 from vertexai.preview.vision_models import MultiModalEmbeddingModel
-from utils import consts
+from utils import consts, config
 
 
 lc_vai_embeddings = VertexAIEmbeddings(model_name=consts.VAIModelName.TXT_EMBED.value)
 txt_embed_model = TextEmbeddingModel.from_pretrained(consts.VAIModelName.TXT_EMBED.value)
 multimodal_embed_model = MultiModalEmbeddingModel.from_pretrained(consts.VAIModelName.MM_EMBED.value)
-openai_embeddings = OpenAIEmbeddings(openai_api_key='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')
+openai_embeddings = OpenAIEmbeddings(openai_api_key=config.openai_api_key)
 
 
 def get_txt_embedding(

@@ -1,6 +1,5 @@
 export GCP_PROJECT_ID='noondev-chatbot'
 export GCP_LOCATION='us-east1'
-export DOCS_BUCKET=''
 
 AR_REPO='aiapps-raghav'
 JOB_NAME='process-job'
@@ -9,7 +8,7 @@ JOB_CPU=8
 JOB_MAX_RETRIES=0
 PROCESS_NUM_TASKS=10
 TASK_TIMEOUT='300m'
-
+SERVICE_ACCOUNT='rmundhada@noondev-chatbot.iam.gserviceaccount.com'
 TASK_PARALLELISM=1
 
 IMAGE_NAME="$GCP_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$AR_REPO/$JOB_NAME"
@@ -42,6 +41,7 @@ gcloud run jobs create $JOB_NAME --execute-now \
     --image $IMAGE_NAME \
     --command python \
     --args process.py \
+    --service-account=$SERVICE_ACCOUNT \
     --tasks $PROCESS_NUM_TASKS \
     --max-retries $JOB_MAX_RETRIES \
     --task-timeout $TASK_TIMEOUT \
