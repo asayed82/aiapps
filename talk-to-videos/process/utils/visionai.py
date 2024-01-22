@@ -157,16 +157,16 @@ def merge_intervals(intervals:list[dict], min_seg_duration:int, max_seg_duration
     for index, shot in enumerate(intervals):
             
         cur_duration = shot["end_secs"] - shot["start_secs"]
-        if cur_duration >= min_seg_duration and cur_duration <=max_seg_duration:
+        if cur_duration > min_seg_duration and cur_duration <max_seg_duration:
             continue
         
-        if cur_duration > max_seg_duration:
+        if cur_duration > max_seg_duration + float(0.1):
             if  index < len(intervals)-1:
                 intervals[index]["end_secs"] = intervals[index]["start_secs"] + max_seg_duration
                 intervals[index+1]["start_secs"] = intervals[index]["end_secs"]
                 return merge_intervals(intervals, min_seg_duration, max_seg_duration)
         
-        elif cur_duration < min_seg_duration:
+        elif cur_duration < min_seg_duration - float(0.1):
                 if  index < len(intervals)-1:
                     intervals[index]["end_secs"] = intervals[index+1]["end_secs"]
                     intervals.pop(index+1)
