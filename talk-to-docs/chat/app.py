@@ -90,7 +90,7 @@ def get_llm_chain_w_customsearch():
                     You only know about products and their details given in the context and nothing else.
                     You have to help customers to find the product that they want.
                     Give properly formatted answer.It should be easy for customers to comprehend.
-                    Include price, image, product url when required.
+                    Include price, image, product url, deal, discount, emi, is returnable, availability, specifications, highlights when you have it.
 
                     Include concise summary in the end. Give recommendation if required. Ask follow up questions if needed.
 
@@ -118,7 +118,7 @@ def get_llm_chain_w_customsearch():
     else:
         retriever = get_pgv_db().as_retriever(
             search_type=consts.SearchType.MMR.value,
-            search_kwargs={"score_threshold": 0.1, "k": 5},
+            search_kwargs={"score_threshold": 0.1, "k": 10},
         )
         
     conversation = ConversationalRetrievalChain.from_llm(

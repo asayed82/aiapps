@@ -67,6 +67,7 @@ def process_specs(specs):
 
 
 def preprocess_docs(docs):
+
     for doc in docs:
         product_detail = json.loads(doc.page_content.lower())
         if not product_detail.get('title_en'):
@@ -121,6 +122,7 @@ def process():
         batch_docs = docs[batch_start_idx: batch_start_idx + batch_size]
 
         for idx, doc in enumerate(batch_docs):
+            print(doc.page_content)
             print(f"=====Processing doc {idx + 1}/{len(batch_docs)} - Task: {TASK_INDEX}")
             processor.process_doc_lc(doc, doc_process_callback)
 
