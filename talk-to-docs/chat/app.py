@@ -118,7 +118,7 @@ def get_llm_chain_w_customsearch():
     else:
         retriever = get_pgv_db().as_retriever(
             search_type=consts.SearchType.MMR.value,
-            search_kwargs={"score_threshold": 0.1, "k": 10},
+            search_kwargs={"score_threshold": 0.1, "k": 5},
         )
         
     conversation = ConversationalRetrievalChain.from_llm(

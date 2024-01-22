@@ -55,6 +55,9 @@ def process_process_pd_value(key, value):
         if key == 'discount':
             value = value or 0
             return round(float(value)*100, 2)
+        if key == 'product_url':
+            if value:
+                return 'https://www.' + value
     except:
         return value
 
@@ -69,7 +72,7 @@ def process_specs(specs):
 def preprocess_docs(docs):
 
     for doc in docs:
-        product_detail = json.loads(doc.page_content.lower())
+        product_detail = json.loads(doc.page_content)
         if not product_detail.get('title_en'):
             return
         title = product_detail['title_en']
@@ -122,9 +125,10 @@ def process():
         batch_docs = docs[batch_start_idx: batch_start_idx + batch_size]
 
         for idx, doc in enumerate(batch_docs):
-            print(doc.page_content)
+            print(f"PAGE CONTENT {doc.page_content}")
             print(f"=====Processing doc {idx + 1}/{len(batch_docs)} - Task: {TASK_INDEX}")
             processor.process_doc_lc(doc, doc_process_callback)
+            break
 
     else:
         raise ValueError(f"File type {settings.file_type} not supported")
