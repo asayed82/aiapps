@@ -174,12 +174,5 @@ def merge_intervals(intervals:list[dict], min_seg_duration:int, max_seg_duration
         
         else:
             return intervals
-    
-          
+     
     return intervals
-
-
-
-
-
-
