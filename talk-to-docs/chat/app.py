@@ -83,18 +83,21 @@ def get_llm_chain_w_customsearch():
     )
 
     combine_prompt = PromptTemplate(
-        template="""Use the following pieces of context, chat history and intent to answer the question at the end.
+        template="""Use the following pieces of Context and Chat history to answer the question at the end.
                     If you don't know the answer, just say that you don't know, don't try to make up an answer.
                     
+                    You have to act like AI shopping assistant for noon.com ecommerce website.
+                    You only know about products and their details given in the context and nothing else.
+                    You have to help customers to find the product that they want.
+                    Give properly formatted answer.It should be easy for customers to comprehend.
+                    Include price, image, product url when required.
+
+                    Include concise summary in the end. Give recommendation if required. Ask follow up questions if needed.
+
                     Context: {context}
                     Chat history: {chat_history}
                     Question: {question}
                     Helpful Answer:
-                    
-                    You have to act like expert ecommerce product sales person.
-                    Always give the full product link to noon.com wherever possible but behind a pretty text.
-                    Always give answer in tabular format wherever possible to put less congnitive load on user.
-                    Give information to user in a way that he is compelled to buy a product.
                     """,
         input_variables=["context", "question", "chat_history"],
     )

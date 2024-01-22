@@ -3,7 +3,7 @@ export LOCATION='us-east1'
 export DOCS_BUCKET='noongpt_training_data'
 export DATA_STORE_ID=''
 export DATA_STORE_REGION=''
-export DOC_COLLECTION='vertexai_collection'
+export DOC_COLLECTION='vertexai_collection_c1'
 
 AR_REPO='aiapps-raghav'
 SERVICE_NAME='noongpt-vertexai-raghav'

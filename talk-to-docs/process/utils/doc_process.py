@@ -53,10 +53,9 @@ class Client:
         chunk_docs = []
         if self.file_type in (consts.FileType.PDF.value, consts.FileType.JSON.value):
             text_splitter = RecursiveCharacterTextSplitter(
-                chunk_size=1000, chunk_overlap=100, add_start_index=True
+                chunk_size=2000, chunk_overlap=200, add_start_index=True
             )
             chunk_docs = text_splitter.split_documents(docs)
-
         elif self.file_type == consts.FileType.HTML.value:
             text_splitter = HTMLHeaderTextSplitter(
                 headers_to_split_on=[("h1", "Header1")], return_each_element=True
@@ -74,5 +73,5 @@ class Client:
             raise ValueError("Doc splitting resulted in an empty list of chunks")
 
         print(f"{len(chunk_docs)} chunks obtained after splitting  ")
-
+        print(chunk_docs)
         return chunk_docs
