@@ -31,7 +31,7 @@ To run the app locally (on cloud shell), we need to perform the following steps:
     In Cloud Shell, execute the following command:
 
 ```bash
-    python app.py
+    python main.py
 ```
 
 The application will startup and you will be provided a locahost URL to the application.
