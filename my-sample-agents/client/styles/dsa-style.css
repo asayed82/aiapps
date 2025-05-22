@@ -1,0 +1,221 @@
+/* client/styles/style.css */
+body {
+    background-color: #121212; /* Dark gray/black background */
+    color: #e0e0e0; /* Light gray text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+    margin: 0; /* Remove default margins */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .input-container {
+    margin: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .action-button {
+    padding: 6px 12px; /* Reduced padding */
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: #f0f0f0;
+    color: #333;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+  }
+  
+  .action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .action-button:hover:not(:disabled) {
+    background-color: #ddd; /* Slightly darker on hover */
+  }
+  
+  .action-button:active:not(:disabled) {
+    transform: scale(0.95); /* Slight scale down on click */
+  }
+  
+  /* Specific button styles */
+  #micButton,
+  #webcamButton,
+  #screenButton,
+  #sendButton,
+  #imageButton {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+  }
+  
+  #micButton:hover:not(:disabled),
+  #webcamButton:hover:not(:disabled),
+  #screenButton:hover:not(:disabled),
+  #sendButton:hover:not(:disabled),
+  #imageButton:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  #micButton:active:not(:disabled),
+  #webcamButton:active:not(:disabled),
+  #screenButton:active:not(:disabled),
+  #sendButton:active:not(:disabled),
+  #imageButton:active:not(:disabled) {
+    background-color: #004080; /* Even darker blue on click */
+  }
+  
+  .video-container {
+    width: 100%;
+    max-width: 640px;
+    margin: 20px auto;
+  }
+  
+  #videoPreview {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #output {
+    background-color: #212121; /* Dark gray background */
+    border: none; /* Remove border */
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+    overflow-y: auto;
+    flex-grow: 1;
+    width: 97%;
+    box-sizing: border-box;
+  }
+  
+  .user-message {
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+    overflow-x: hidden;
+    width: fit-content;
+  }
+  
+  .function-name {
+    background-color: #333; /* Darker gray */
+    color: #00bfff; /* Light blue */
+    border: none;
+  }
+  
+  .function-params {
+    background-color: #333; /* Darker gray */
+    color: #ccc;
+    border: none;
+  }
+  
+  .api-response {
+    background-color: #333; /* Darker gray */
+    color: #90ee90; /* Light green */
+    border: none;
+  }
+  
+  .gemini-message {
+    background-color: #333; /* Darker gray */
+    color: #009dff; /* White */
+    border: none;
+  }
+  
+  .user-message {
+    background-color: #444; /* Slightly lighter gray */
+    color: #fff; /* White */
+    border: none;
+    align-self: flex-end; /* Align user messages to the right */
+  }
+  
+  .text-input-container {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .text-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .text-input:focus {
+    outline: none;
+    border-color: #6200ee;
+  }
+  
+  header {
+    background-color: #1e1e1e; /* Slightly lighter black */
+    padding: 10px; /* Reduced padding */
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center; /* Center content horizontally */
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 1.5em; /* Smaller font size */
+    background-image: linear-gradient(to right, #0267ff 30%, #39FF14 70%);
+    -webkit-background-clip: text; /* Clip the background to the text */
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* Make the text transparent */
+    text-fill-color: transparent;
+  }
+  
+  header p {
+    color: #ccc; /* Light gray description */
+    margin: 10px 0 0 0; /* Added margin-top */
+  }
+  
+  /* client/styles/style.css and client/styles/mobile-style.css */
+  .chat-input {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px;
+    box-sizing: border-box;
+  }
+  
+  .chat-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    margin-right: 0;
+    background-color: #333; /* Dark gray */
+    color: #ffffff; /* White text */
+  }
+  
+  .chat-input button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .chat-input button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* client/styles/style.css and client/styles/mobile-style.css */
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1;
+  }
+  

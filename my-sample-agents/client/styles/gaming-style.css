@@ -1,0 +1,164 @@
+html, body {
+  height: 100%; /* Essential: html and body take full viewport height */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;         /* body is a flex container */
+  flex-direction: column;/* Stack header, input, main-content vertically */
+}
+
+.header-section {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.header-section h1 {
+  margin-top: 0;
+  color: #333;
+}
+
+.header-section p {
+  margin-bottom: 0;
+  color: #666;
+}
+
+.input-container {
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  flex-shrink: 0; /* Prevent input container from shrinking */
+}
+
+.action-button {
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background: #f0f0f0;
+}
+
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- MAIN LAYOUT --- */
+.main-content {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;        /* CRUCIAL: Allow .main-content to fill remaining space */
+  gap: 20px;
+  padding: 20px;
+  overflow: hidden;      /* IMPORTANT: Prevent .main-content from overflowing */
+}
+
+.video-and-image-container {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.video-container {
+  width: 100%;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+#videoPreview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+#imagePreviewContainer {
+  margin-top: 10px;
+  width: 100%;
+}
+#imagePreview {
+  max-width: 100%;
+  max-height: 200px;
+}
+
+#output {
+  flex: 1;               /* Takes up 1/4 of .main-content */
+  border: 1px solid #ddd;
+  padding: 15px;
+  overflow-y: auto;      /* Enable vertical scrolling for #output */
+  background-color: #fafafa;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  /* No fixed height needed! */
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .main-content {
+      flex-direction: column; /* Stack on smaller screens */
+  }
+  .video-and-image-container, #output {
+      width: 100%;
+      flex: none; /* Reset flex-basis */
+  }
+  .input-container{
+      flex-direction: column; /* Stack input elements */
+  }
+  .text-input-container {
+      width: 100%; /* Full width for text input on small screens */
+  }
+}
+
+/* --- MESSAGE STYLES --- */
+.function-name, .function-params, .api-response, .gemini-message, .user-message {
+  margin: 4px 0;
+  padding: 4px 8px;
+  border-left: 3px solid;
+  white-space: pre-wrap;  /* Wrap long lines */
+  word-wrap: break-word;  /* Break very long words */
+ /* overflow-y: auto;  <-- REMOVE THIS.  We want the *entire* #output to scroll, not individual messages. */
+  overflow-x: hidden;     /* Hide horizontal scrollbar */
+}
+
+.function-name { color: #0066cc; background-color: #f0f8ff; border-color: #0066cc;}
+.function-params {color: #666; background-color: #f5f5f5; border-color: #666; }
+.api-response { color: #2e7d32; background-color: #f1f8e9; border-color: #2e7d32; }
+.gemini-message { color: #6200ee; margin-bottom: 8px; }
+.user-message { color: #333; margin-bottom: 8px; }
+
+.text-input-container {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+}
+
+.text-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: #6200ee;
+}
+.interrupted-message {
+  color: #ff6b6b;
+  font-style: italic;
+  margin: 4px 0;
+  padding: 4px 8px;
+  border-left: 3px solid #ff6b6b;
+  background-color: rgba(255, 107, 107, 0.1);
+}

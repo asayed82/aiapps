@@ -1,0 +1,38 @@
+sources:
+ live-agents-source:
+   kind: cloud-sql-postgres
+   project: my-demo-project-359019
+   region: us-central1
+   instance: live-agents-db-instance
+   database: postgres
+   user: postgres
+   password: postgres
+
+tools:
+ update_interview_evaluation:
+   kind: postgres-sql
+   source: live-agents-source
+   description: update an interview row with an evaluation based on interview_id
+   parameters:
+     - name: interview_id
+       type: integer
+       description: the ID of the interview
+     - name: evaluation
+       type: string
+       description: The evaluation criteria with respective scores and reasons
+   statement: UPDATE interview SET evaluation = CAST($2 as JSONB) WHERE interview_id = $1;
+
+ get_interview_by_code:
+   kind: postgres-sql
+   source: live-agents-source
+   description: Get an interview row (i.e. company profile, job description and candidate cv) based on interview_code.
+   parameters:
+     - name: interview_code
+       type: string
+       description: The code of the interview.
+   statement: SELECT * FROM interview WHERE interview_code = $1;
+
+toolsets:
+   interview_db_toolset:
+     - update_interview_evaluation
+     - get_interview_by_code

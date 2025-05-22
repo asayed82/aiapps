@@ -1,0 +1,12 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--no-cache', '-t', 'gcr.io/$PROJECT_ID/live-agent-backend', '.']
+  dir: 'server'
+
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/live-agent-backend']
+
+images:
+- 'gcr.io/$PROJECT_ID/live-agent-backend'

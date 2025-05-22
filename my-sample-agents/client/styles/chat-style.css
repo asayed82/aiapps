@@ -1,0 +1,856 @@
+/* ==========================================================================
+   styles/chat-widget.css
+   Optimized and Commented CSS for the Floating Chat Widget
+   ========================================================================== */
+
+/* --- Global Resets & Base Styles --- */
+/* Note: These resets and base body styles might be better placed
+         in a global stylesheet rather than widget-specific CSS. */
+
+* {
+    box-sizing: border-box;
+    /* Modern standard for box model calculation */
+    margin: 0;
+    /* Remove default browser margins */
+    padding: 0;
+    /* Remove default browser padding */
+}
+
+html,
+body {
+    height: 100%;
+    /* Ensure html and body can take full height if needed */
+}
+
+body {
+    font-family: sans-serif;
+    /* Basic default font */
+    background-color: #f8f9fa;
+    /* Light background for the page */
+    padding: 20px;
+    /* Padding around the main page content area */
+    line-height: 1.5;
+    /* Sensible default line height */
+}
+
+/* --- Main Page Content Area (Example Structure) --- */
+/* Styles for the container holding the main page content,
+           distinct from the fixed chat widget */
+
+.main-container {
+    display: flex;
+    /* Use flexbox for layout */
+    width: 100%;
+    /* Full width */
+    gap: 20px;
+    /* Space between flex items */
+    align-items: flex-start;
+    /* Align items to the top */
+    max-width: 1200px;
+    /* Limit maximum content width */
+    margin: 0 auto;
+    /* Center the container horizontally */
+    padding: inherit;
+    /* Inherit body padding or set specific */
+}
+
+.info-section {
+    flex: 1;
+    /* Allow this section to grow */
+    padding-right: 20px;
+    /* Space to avoid potential overlap with widget */
+}
+
+.info-section h1 {
+    margin-bottom: 0.5em;
+    /* Spacing below heading */
+}
+
+.info-section p {
+    color: #555;
+    /* Text color for paragraphs */
+}
+
+/* ==========================================================================
+           Chat Widget Wrapper (.chat-widget-container)
+           ========================================================================== */
+/* This is the main fixed container that holds the entire chat interface.
+           It controls positioning, visibility, size, and state transitions. */
+
+.chat-widget-container {
+    position: fixed;
+    /* Fixed position relative to the viewport */
+    bottom: 20px;
+    /* Distance from bottom */
+    right: 20px;
+    /* Distance from right */
+    z-index: 1000;
+    /* Ensure it sits above most page content */
+    width: 480px;
+    /* Default width */
+    max-height: 600px;
+    /* Maximum height before scrolling */
+    border-radius: 8px;
+    /* Rounded corners for the entire widget */
+    overflow: hidden;
+    /* Clip child elements (like chat-container) to the rounded corners */
+    transform-origin: bottom right;
+    /* Animation origin for scaling/transformations */
+    display: flex;
+    /* Use flex to manage inner container (.chat-container) */
+    opacity: 1;
+    /* Default visible state */
+    visibility: visible;
+    /* Default visible state */
+
+    /* Transitions for smooth state changes (minimized, closed, fullscreen) */
+    /* Explicitly listing properties can be slightly more performant than 'all' */
+    transition: width 0.3s ease, height 0.3s ease, max-height 0.3s ease,
+        transform 0.3s ease, opacity 0.3s ease,
+        top 0.3s ease, left 0.3s ease, bottom 0.3s ease, right 0.3s ease,
+        border-radius 0.3s ease, visibility 0.3s ease;
+    /* Added visibility transition */
+}
+
+/* ==========================================================================
+           Chat Inner Container (.chat-container)
+           ========================================================================== */
+/* This container sits inside the wrapper and holds the header, output, and input areas.
+           It provides the main visual background, border, and shadow. */
+
+.chat-widget-container .chat-container {
+    flex: 1;
+    /* Take up all available space within the flex wrapper */
+    max-height: 100%;
+    /* Ensure it doesn't exceed wrapper height */
+    background-color: #fff;
+    /* White background for the chat content */
+    border: 1px solid #dee2e6;
+    /* Subtle border */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    /* Drop shadow for depth */
+    display: flex;
+    /* Use flexbox for vertical layout (header, output, input) */
+    flex-direction: column;
+    /* Stack children vertically */
+    opacity: 1;
+    /* Default visible state */
+    visibility: visible;
+    /* Default visible state */
+    overflow: hidden;
+    /* Hide internal overflow (e.g., if output grows too large before scrolling) */
+    /* border-radius is handled by the parent wrapper (.chat-widget-container) */
+
+    /* Transition for opacity/visibility (e.g., if needed for minimization/closing effects) */
+    /* Note: Border-radius transition is likely handled by the wrapper's transition */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* ==========================================================================
+           Chat Header (.chat-header)
+           ========================================================================== */
+
+.chat-header {
+    background-color: #4267B2;
+    /* Blue header background */
+    color: white;
+    /* White text */
+    padding: 10px 15px;
+    /* Vertical and horizontal padding */
+    font-weight: bold;
+    /* Bold title text */
+    display: flex;
+    /* Use flexbox for layout (title | controls) */
+    justify-content: space-between;
+    /* Push title and controls apart */
+    align-items: center;
+    /* Center items vertically */
+    flex-shrink: 0;
+    /* Prevent header from shrinking if content grows */
+    cursor: default;
+    /* Standard cursor */
+    /* Top border-radius handled by wrapper */
+}
+
+.chat-header span:first-child {
+    /* Target the title span */
+    flex-grow: 1;
+    /* Allow title to take available space */
+    margin-right: 10px;
+    /* Space between title and control buttons */
+}
+
+/* --- Header Controls (Minimize/Close Buttons) --- */
+
+.chat-header-controls {
+    display: flex;
+    /* Align buttons horizontally */
+    align-items: center;
+    /* Align buttons vertically */
+}
+
+.chat-header-controls .control-button {
+    background: none;
+    /* Transparent background */
+    border: none;
+    /* No border */
+    color: #fff;
+    /* White icon color */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    padding: 0;
+    /* Remove padding; size controlled by width/height */
+    border-radius: 50%;
+    /* Make the button background area circular */
+    display: flex;
+    /* Use flex to center icon */
+    align-items: center;
+    /* Center icon vertically */
+    justify-content: center;
+    /* Center icon horizontally */
+    margin-left: 4px;
+    /* Space between control buttons */
+    width: 28px;
+    /* Fixed width */
+    height: 28px;
+    /* Fixed height (equal to width for circle) */
+    /* line-height matching height can help vertical alignment for some icon fonts,
+               but flexbox align-items usually handles this. Keep if needed. */
+    line-height: 28px;
+    transition: background-color 0.2s ease;
+    /* Smooth background transition on hover */
+}
+
+.chat-header-controls .control-button .material-symbols-outlined {
+    font-size: 20px;
+    /* Icon size */
+    display: inline-block;
+    /* Needed for potential text alignment */
+    vertical-align: middle;
+    /* Align icon vertically */
+    /* Removed transform: translateX(4px); - Re-add if specific icon alignment is needed */
+}
+
+.chat-header-controls .control-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    /* Subtle background highlight on hover */
+}
+
+/* ==========================================================================
+           Chat Output Area (#output)
+           ========================================================================== */
+/* Container for displaying messages */
+
+#output {
+    flex-grow: 1;
+    /* Allow output area to take up remaining vertical space */
+    padding: 15px;
+    /* Padding inside the message area */
+    background-color: #fff;
+    /* White background */
+    border-bottom: 1px solid #dee2e6;
+    /* Separator line above input area */
+    margin: 0;
+    /* Reset margin */
+    overflow-y: auto;
+    /* Enable vertical scrolling when content exceeds height */
+}
+
+/* ==========================================================================
+           Chat Input Area (.input-area)
+           ========================================================================== */
+/* Container for the text input field and associated action buttons */
+
+.input-area {
+    display: flex;
+    /* Use flexbox for layout (input container | send button) */
+    align-items: center;
+    /* Center items vertically */
+    padding: 8px 10px;
+    /* Padding around the input elements */
+    background-color: #f0f0f0;
+    /* Light grey background for the whole area */
+    flex-shrink: 0;
+    /* Prevent input area from shrinking */
+    /* Bottom border-radius handled by wrapper */
+}
+
+/* --- Text Input Container (Holds icons + text field) --- */
+
+.text-input-container {
+    flex-grow: 1;
+    /* Allow container to take available space */
+    display: flex;
+    /* Use flexbox for layout (icons | text field) */
+    align-items: center;
+    /* Center items vertically */
+    background-color: #fff;
+    /* White background for the input field area */
+    border: 1px solid #d0d0d0;
+    /* Border around the input field area */
+    border-radius: 20px;
+    /* Rounded corners for the input field area */
+    padding: 0 8px;
+    /* Optimized: Vertical 0, Horizontal 8px padding inside */
+}
+
+/* --- Text Input Field --- */
+
+.text-input {
+    flex-grow: 1;
+    /* Allow text input to take available space */
+    border: none;
+    /* No border */
+    outline: none;
+    /* No focus outline */
+    padding: 8px 5px;
+    /* Padding inside the text input */
+    background: transparent;
+    /* Transparent background */
+    font-size: 14px;
+    /* Text input font size */
+    margin-left: 5px;
+    /* Space between last icon (if any) and text */
+    color: #333;
+    /* Text color */
+}
+
+.text-input::placeholder {
+    color: #888;
+    /* Placeholder text color */
+}
+
+
+/* ==========================================================================
+           Action Buttons (Generic & Specific)
+           ========================================================================== */
+
+/* --- Generic Action Button Style --- */
+/* Base style for small icon buttons (e.g., attach, interrupt, send) */
+.action-button {
+    background: none;
+    /* Transparent background */
+    border: none;
+    /* No border */
+    color: #555;
+    /* Default dark grey icon color */
+    cursor: pointer;
+    /* Pointer cursor */
+    padding: 3px 1px;
+    /* Small padding */
+    border-radius: 3px;
+    /* Subtle rounded corners */
+    display: flex;
+    /* Use flex to center icon */
+    align-items: center;
+    /* Center icon vertically */
+    justify-content: center;
+    /* Center icon horizontally */
+    margin: 0 2px;
+    /* Small horizontal margin */
+    line-height: 1;
+    /* Prevent extra vertical space */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    /* Smooth transitions */
+}
+
+.action-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    /* Subtle background on hover */
+    color: #000;
+    /* Darker icon on hover */
+}
+
+.action-button:disabled {
+    color: #bbb !important;
+    /* Lighter grey for disabled state */
+    cursor: not-allowed;
+    /* Disabled cursor */
+    background-color: transparent !important;
+    /* Ensure no background override */
+}
+
+.action-button .material-symbols-outlined {
+    font-size: 22px;
+    /* Standard icon size */
+}
+
+/* --- Action Buttons Inside Input Container --- */
+/* Specific styling for action buttons placed within .text-input-container */
+.action-button.inside-input {
+    margin: 0;
+    /* Remove horizontal margin if tightly packed */
+    /* Adjust padding if needed */
+}
+
+/* --- Send Button (Outside Input Container) --- */
+.action-button.send-button-outside {
+    margin-left: 8px;
+    /* Space between input container and send button */
+    padding: 8px;
+    /* Larger click/touch area */
+    color: #888;
+    /* Default grey color */
+}
+
+.action-button.send-button-outside:hover {
+    color: #0d6efd;
+    /* Blue on hover */
+    background-color: rgba(13, 110, 253, 0.1);
+    /* Light blue background */
+}
+
+/* Add this class via JS when input has text */
+.action-button.send-button-outside.active {
+    color: #0d6efd;
+    /* Blue when active (input has text) */
+}
+
+.action-button.send-button-outside.active:hover {
+    background-color: rgba(13, 110, 253, 0.2);
+    /* Slightly darker blue background on hover when active */
+}
+
+/* --- Interrupt Button Specific Styles --- */
+#interruptButton.inside-input {
+    color: #dc3545;
+    /* Red color for interrupt */
+    margin-left: 5px;
+    /* Space before interrupt button if needed */
+}
+
+#interruptButton.inside-input:hover {
+    color: #a71d2a;
+    /* Darker red on hover */
+    background-color: rgba(220, 53, 69, 0.1);
+    /* Light red background */
+}
+
+/* ==========================================================================
+           Floating Toggle Button (#chat-toggle-button)
+           ========================================================================== */
+/* The button shown when the chat widget is closed, used to reopen it. */
+
+#chat-toggle-button {
+    position: fixed;
+    /* Fixed position relative to viewport */
+    bottom: 20px;
+    /* Matches widget closed position */
+    right: 20px;
+    /* Matches widget closed position */
+    width: 60px;
+    /* Button width */
+    height: 60px;
+    /* Button height */
+    background-color: #0d6efd;
+    /* Blue background */
+    color: white;
+    /* White icon */
+    border: none;
+    /* No border */
+    border-radius: 50%;
+    /* Circular button */
+    display: none;
+    /* Initially hidden (controlled by .closed state) */
+    align-items: center;
+    /* Center icon vertically */
+    justify-content: center;
+    /* Center icon horizontally */
+    cursor: pointer;
+    /* Pointer cursor */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    /* Drop shadow */
+    z-index: 1001;
+    /* Ensure it's above widget when closed, but below when open */
+    opacity: 0;
+    /* Start faded out */
+    visibility: hidden;
+    /* Start hidden */
+    transition: transform 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
+    /* Smooth transitions */
+}
+
+#chat-toggle-button:hover {
+    transform: scale(1.1);
+    /* Slightly enlarge on hover */
+}
+
+#chat-toggle-button .material-symbols-outlined {
+    font-size: 30px;
+    /* Icon size */
+}
+
+
+/* ==========================================================================
+           Widget State Modifiers (.minimized, .closed, .fullscreen)
+           ========================================================================== */
+
+/* --- Minimized State --- */
+/* Applied to .chat-widget-container */
+.chat-widget-container.minimized {
+    max-height: 45px;
+    /* Adjust to match header height + borders/padding if needed */
+    width: 380px;
+    /* Can be wider than closed state, shows header */
+    /* Overflow is already hidden by the base .chat-widget-container style */
+}
+
+/* --- Closed State --- */
+/* Applied to .chat-widget-container */
+.chat-widget-container.closed {
+    opacity: 0;
+    /* Fade out */
+    visibility: hidden;
+    /* Hide */
+    transform: scale(0.5) translate(50%, 50%);
+    /* Shrink towards bottom-right origin */
+    pointer-events: none;
+    /* Disable interaction */
+}
+
+/* Show the toggle button when the widget is closed */
+.chat-widget-container.closed+#chat-toggle-button {
+    display: flex;
+    /* Show the button */
+    opacity: 1;
+    /* Fade it in */
+    visibility: visible;
+    /* Make it visible */
+}
+
+/* --- Fullscreen State --- */
+/* Applied to .chat-widget-container */
+.chat-widget-container.fullscreen {
+    top: 0;
+    /* Align to top edge */
+    left: 0;
+    /* Align to left edge */
+    bottom: 0;
+    /* Align to bottom edge */
+    right: 0;
+    /* Align to right edge */
+    width: 100%;
+    /* Full viewport width */
+    height: 100%;
+    /* Full viewport height */
+    max-height: none;
+    /* Remove max-height restriction */
+    border-radius: 0;
+    /* Square corners */
+    z-index: 1500;
+    /* Higher z-index to cover everything */
+}
+
+/* Ensure inner container also adapts to fullscreen */
+.chat-widget-container.fullscreen .chat-container {
+    border-radius: 0;
+    /* Square corners for inner container */
+    border: none;
+    /* Optional: remove border in fullscreen */
+}
+
+/* Ensure header/input corners adapt (may not be strictly necessary if wrapper clips) */
+.chat-widget-container.fullscreen .chat-header,
+.chat-widget-container.fullscreen .input-area {
+    border-radius: 0;
+    /* Remove any potential top/bottom radius */
+}
+
+
+/* ==========================================================================
+           Message Styling (#output > div, .user-message, .gemini-message, etc.)
+           ========================================================================== */
+
+/* --- Base Message Style --- */
+/* Applied to direct children divs within #output */
+#output>div {
+    margin-bottom: 10px;
+    /* Space below each message bubble */
+    padding: 10px 15px;
+    /* Padding inside message bubbles */
+    border-radius: 15px;
+    /* Rounded corners for bubbles */
+    max-width: 80%;
+    /* Max width to prevent full width bubbles */
+    word-wrap: break-word;
+    /* Allow long words to break */
+    line-height: 1.4;
+    /* Line height within messages */
+    border: none;
+    /* Ensure no base border */
+    /* Alignment (flex-start/end) and background/color are set by specific types */
+}
+
+/* --- User Message Style --- */
+.user-message {
+    background-color: #0d6efd;
+    /* Blue background */
+    color: #ffffff;
+    /* White text */
+    align-self: flex-end;
+    /* Align bubble to the right */
+    margin-left: auto;
+    /* Push to the right */
+    /* border-radius inherited */
+}
+
+/* --- Gemini Message Style --- */
+.gemini-message {
+    background-color: #f1f1f1;
+    /* Light grey background */
+    color: #333333;
+    /* Dark text */
+    align-self: flex-start;
+    /* Align bubble to the left */
+    margin-right: auto;
+    /* Push to the left */
+    /* border-radius inherited */
+}
+
+/* --- Status Message Style --- */
+/* General status message (often centered) */
+.status {
+    color: grey;
+    /* Grey text */
+    font-style: italic;
+    /* Italic text */
+    font-size: 0.9em;
+    /* Slightly smaller font */
+    background-color: transparent;
+    /* No background bubble */
+    border: none;
+    /* No border */
+    padding: 2px 15px;
+    /* Minimal padding */
+    margin: 0 auto 10px auto;
+    /* Center horizontally, add bottom margin */
+    max-width: 80%;
+    /* Consistent max width */
+    align-self: center;
+    /* Center align within flex container */
+    text-align: center;
+    /* Center text */
+    border-radius: 15px;
+    /* Match bubble roundness (optional for transparent bg) */
+}
+
+/* Specific status message styled like a Gemini bubble */
+.gemini-message.status {
+    background-color: #f1f1f1;
+    /* Keep grey background */
+    color: #555;
+    /* Slightly lighter text */
+    font-style: italic;
+    /* Italic text */
+    text-align: left;
+    /* Align text left within bubble */
+    border: none;
+    /* No border */
+    /* Inherits align-self: flex-start from .gemini-message */
+}
+
+/* --- Interrupted Message Style --- */
+.interrupted-message {
+    color: #ff6b6b;
+    /* Reddish text */
+    font-style: italic;
+    /* Italic text */
+    margin: 4px 0 10px 0;
+    /* Adjusted margin (added more bottom margin) */
+    padding: 4px 8px;
+    /* Padding */
+    border-left: 3px solid #ff6b6b;
+    /* Red left border */
+    background-color: rgba(255, 107, 107, 0.1);
+    /* Light red background */
+    max-width: 100%;
+    /* Can take full width */
+    align-self: center;
+    /* Center align */
+    border-radius: 4px;
+    /* Slight rounding */
+}
+
+/* --- Error Message Style --- */
+.error-message {
+    color: #dc3545;
+    /* Red text */
+    background-color: rgba(220, 53, 69, 0.1);
+    /* Light red background */
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    /* Subtle red border */
+    padding: 10px 15px;
+    /* Match standard bubble padding */
+    max-width: 100%;
+    /* Can take full width */
+    align-self: flex-start;
+    /* Align left */
+    /* border-radius inherited from base #output > div */
+}
+
+/* --- Formatted Code/API Messages --- */
+/* Grouping shared styles for monospace message types */
+.function-name,
+.function-params,
+.api-response,
+.unknown-message {
+    font-family: monospace;
+    /* Monospace font */
+    font-size: 0.9em;
+    /* Slightly smaller font */
+    background-color: #e9ecef;
+    /* Light grey background */
+    padding: 8px 10px;
+    /* Padding */
+    margin-top: 5px;
+    /* Space above if following another message */
+    border-radius: 4px;
+    /* Less rounded than bubbles */
+    border: 1px solid #ced4da;
+    /* Default border */
+    white-space: pre-wrap;
+    /* Preserve whitespace and wrap lines */
+    max-width: 100%;
+    /* Can take full width */
+    align-self: flex-start;
+    /* Align left */
+    color: #333;
+    /* Default text color */
+    /* Ensure margin-bottom is applied from base rule */
+    margin-bottom: 10px;
+}
+
+/* Specific styles for each type */
+.function-name {
+    color: #007bff;
+    /* Blue text */
+    border-color: rgba(0, 123, 255, 0.3);
+    /* Subtle blue border */
+    background-color: rgba(0, 123, 255, 0.05);
+    /* Very light blue background */
+}
+
+.function-params {
+    color: #555;
+    /* Dark grey text */
+}
+
+.api-response {
+    color: #28a745;
+    /* Green text */
+    border-color: rgba(40, 167, 69, 0.3);
+    /* Subtle green border */
+    background-color: rgba(40, 167, 69, 0.05);
+    /* Very light green background */
+}
+
+/* .unknown-message uses the default shared styles */
+
+/* --- Images in Gemini Messages --- */
+.gemini-message img {
+    max-width: 100%;
+    /* Ensure image fits within bubble */
+    height: auto;
+    /* Maintain aspect ratio */
+    display: block;
+    /* Remove extra space below image */
+    margin-top: 8px;
+    /* Space above image if text precedes it */
+    border-radius: 4px;
+    /* Slightly rounded corners for image */
+}
+
+/* ==========================================================================
+           Media Preview (Video/Image Upload Preview)
+           ========================================================================== */
+/* Styles for the container showing video or image previews before sending */
+
+.video-container,
+#imagePreviewContainer {
+    flex-shrink: 0;
+    /* Prevent shrinking */
+    /* Positioned in normal flow within the chat container (likely above input) */
+    margin: 5px 15px 10px 15px;
+    /* Top, Horizontal, Bottom margins */
+    padding: 5px;
+    /* Small padding around the preview content */
+    background-color: #f8f9fa;
+    /* Light background for preview area */
+    border: 1px solid #dee2e6;
+    /* Subtle border */
+    border-radius: 6px;
+    /* Rounded corners */
+    overflow: hidden;
+    /* Clip content to rounded corners */
+    max-height: 300px;
+    /* Limit preview height (adjust as needed) */
+    opacity: 1;
+    /* Default visible */
+
+    /* Transitions for smooth showing/hiding animation */
+    transition: opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease, border 0.4s ease, padding 0.4s ease;
+}
+
+/* Style for the actual video/image elements inside the preview container */
+.video-container video,
+#imagePreviewContainer img {
+    max-width: 100%;
+    /* Ensure media fits within preview container padding */
+    display: block;
+    /* Remove extra space below */
+    height: auto;
+    /* Maintain aspect ratio */
+    border-radius: 4px;
+    /* Slight rounding on media element itself */
+}
+
+/* ==========================================================================
+           Utility Classes (.hidden)
+           ========================================================================== */
+
+/* --- Hidden Class for Animated Hiding --- */
+/* Used to smoothly hide elements like the media preview */
+.hidden {
+    opacity: 0 !important;
+    /* Fade out */
+    max-height: 0 !important;
+    /* Collapse height */
+    margin-top: 0 !important;
+    /* Collapse top margin */
+    margin-bottom: 0 !important;
+    /* Collapse bottom margin */
+    padding-top: 0 !important;
+    /* Collapse top padding */
+    padding-bottom: 0 !important;
+    /* Collapse bottom padding */
+    border-width: 0 !important;
+    /* Collapse border */
+    overflow: hidden !important;
+    /* Ensure content is clipped during transition */
+    /* Note: Using !important is often necessary here to override potential
+                     inline styles (e.g., display: block) added by JavaScript
+                     when showing the element. Avoid if possible, but usually needed
+                     for robust animated hiding controlled by adding/removing this class. */
+    /* display: none !important; is NOT used to allow animation */
+}
+
+/* --- Accessibility Helper --- */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap; /* Added */
+    border: 0;
+  }
+
+/* --- Specific handling for image preview initially --- */
+/* If image preview uses inline display:none initially, this CSS won't override
+           it until the 'hidden' class is REMOVED and JS potentially sets display:block.
+           Ensure JS removes inline style OR sets display correctly when showing. */
+#imagePreviewContainer {
+    /* Add any specific non-shared styles here if needed */
+}

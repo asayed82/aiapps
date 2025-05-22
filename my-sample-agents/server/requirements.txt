@@ -1,0 +1,13 @@
+google-cloud-secret-manager
+db-dtypes
+google-cloud-alloydb
+google-cloud-alloydb-connector
+immutabledict
+pg8000
+sqlglot
+immutabledict
+google-adk==0.0.4
+regex
+toolbox-langchain
+langchain
+google-genai

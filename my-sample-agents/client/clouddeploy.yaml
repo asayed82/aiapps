@@ -1,0 +1,19 @@
+steps:
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - 'run'
+  - 'deploy'
+  - 'live-agent-ui-$_DEMO_TYPE'
+  - '--image'
+  - 'gcr.io/$PROJECT_ID/live-agent-ui'
+  - '--region'
+  - 'us-central1'
+  - '--platform'
+  - 'managed'
+  - '--allow-unauthenticated'
+  - '--port'
+  - '8080'
+  - '--set-env-vars'
+  - 'BACKEND_URL=${_BACKEND_URL},DEMO_TYPE=${_DEMO_TYPE}'
